@@ -5,11 +5,13 @@ import { GetProductCategoryComponent } from './product-categories/get-product-ca
 import { GetProductsComponent } from './products/get-products/get-products.component';
 import { CreateProductComponent } from './products/create-product/create-product.component';
 import { GetProductComponent } from './products/get-product/get-product.component';
+import { productCategoryResolver } from './product-categories/resolvers/product-category.resolver';
 
 export const shopRoutes: Routes = [
   {
     path: 'product-categories',
     component: GetProductCategoriesComponent,
+    resolve: [productCategoryResolver],
     children: [
       {
         path: 'new',
