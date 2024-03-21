@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ProductCategoriesModel } from '../models/product-categories.model';
 import { ProductCategoryService } from './product-category.service';
-import { ProductCategoryUrlsService } from './product-category-urls.service';
+import { MetavisionUrlsService } from '../../services/metavision-urls.service';
 
 @Injectable({
   providedIn: 'root',
@@ -10,14 +10,14 @@ import { ProductCategoryUrlsService } from './product-category-urls.service';
 export class ProductCategoryStorageService {
   constructor(
     private httpClient: HttpClient,
-    private productCategoryUrlsService: ProductCategoryUrlsService,
+    private metavisionUrlsService: MetavisionUrlsService,
     private productCategoryService: ProductCategoryService
   ) {}
 
   getProductCategories(): ProductCategoriesModel[] {
     this.httpClient
       .get<ProductCategoriesModel[]>(
-        this.productCategoryUrlsService.productCategoriesUrl
+        this.metavisionUrlsService.productCategoriesUrl
       )
       .subscribe({
         next: (data) => {

@@ -1,0 +1,141 @@
+<form
+  class="form-container"
+  [formGroup]="productCategoryForm"
+  (ngSubmit)="onSubmit()"
+>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>دسته بندی محصول جدید</mat-card-title>
+    </mat-card-header>
+    <br /><br /><br />
+    <mat-card-content>
+      <div class="row">
+        <div class="col-md-6">
+          <mat-form-field class="full-width">
+            <mat-label class="vazir-font">دسته بندی محصول اصلی</mat-label>
+            <mat-select formControlName="parentId">
+              <mat-option class="vazir-font" value="0">هیچکدام</mat-option>
+              <mat-option class="vazir-font" value="1">نام یک</mat-option>
+              <mat-option class="vazir-font" value="2">نام دو</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-md-6">
+          <mat-form-field class="full-width">
+            <mat-label class="vazir-font">نام</mat-label>
+            <input
+              type="text"
+              matInput
+              class="vazir-font"
+              formControlName="name"
+              #nameInput
+              (focusout)="nameOut($event)"
+            />
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <mat-form-field class="full-width">
+            <mat-label class="vazir-font">توضیحات</mat-label>
+            <textarea
+              matInput
+              class="vazir-font"
+              formControlName="description"
+              (focusout)="descriptionOut($event)"
+              #descriptionInput
+            ></textarea>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <mat-form-field class="full-width">
+            <mat-label class="vazir-font">توضیحات متا</mat-label>
+            <textarea
+              matInput
+              class="vazir-font"
+              formControlName="metaDescription"
+              #metaDescriptionInput
+            ></textarea>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row" formGroupName="seo">
+        <div class="col-md-12">
+          <mat-form-field class="full-width">
+            <mat-label class="vazir-font">اسلاگ</mat-label>
+            <input
+              type="text"
+              matInput
+              class="vazir-font"
+              formControlName="slug"
+              #slugInput
+            />
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-10">
+          <mat-form-field class="full-width">
+            <mat-label class="vazir-font">کلمات کلیدی</mat-label>
+            <input
+              type="text"
+              matInput
+              class="vazir-font"
+              #keywordInput
+              [(ngModel)]="keywordEntered"
+              [ngModelOptions]="{ standalone: true }"
+            />
+          </mat-form-field>
+        </div>
+        <div class="col-md-2">
+          <button
+            class="vazir-font add-btn"
+            mat-raised-button
+            color="primary"
+            type="button"
+            (click)="addNewKeyword()"
+            [disabled]="activateAddKeywordBtn()"
+          >
+            <mat-icon style="font-weight: bolder; font-size: 20px"
+              >add</mat-icon
+            >
+          </button>
+        </div>
+      </div>
+      @if (keywords) {
+      <div class="row" formGroupName="seo">
+        <div class="col-md-12">
+          <input type="text" hidden formControlName="keywords" />
+          @for (keyword of keywords; track $index) {
+          <div class="keyword-element">
+            <span style="color: black">{{ keyword }}</span>
+            <button
+              class="keyword-btn"
+              type="button"
+              (click)="deleteKeyword($index)"
+            >
+              x
+            </button>
+          </div>
+          }
+        </div>
+      </div>
+      }
+      <br /><br /><br />
+      <button class="vazir-font" style="margin-left: 10px" mat-raised-button>
+        بازگشت
+      </button>
+      <button
+        class="vazir-font"
+        mat-raised-button
+        color="primary"
+        type="submit"
+        [disabled]="!productCategoryForm.valid"
+      >
+        اضافه کردن
+      </button>
+    </mat-card-content>
+  </mat-card>
+</form>
