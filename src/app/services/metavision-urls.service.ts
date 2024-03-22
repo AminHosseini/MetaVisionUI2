@@ -4,7 +4,10 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class MetavisionUrlsService {
+  // Api Routes:
+  private domain: string = 'https://localhost:8082/api';
+
   get productCategoriesUrl(): string {
-    return 'https://localhost:8082/api/ProductCategories';
+    return `${this.domain}/product-categories`;
   }
 }

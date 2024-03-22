@@ -1,10 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  NgModule,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -19,6 +13,10 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
+import { ActivatedRoute, Router } from '@angular/router';
+import { TextFieldModule } from '@angular/cdk/text-field';
+import { SeoService } from '../../services/seo.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-create-product-category',
@@ -33,21 +31,22 @@ import { MatButtonModule } from '@angular/material/button';
     MatButtonModule,
     ReactiveFormsModule,
     FormsModule,
+    TextFieldModule,
   ],
   templateUrl: './create-product-category.component.html',
   styleUrl: './create-product-category.component.css',
 })
 export class CreateProductCategoryComponent implements OnInit {
   productCategoryForm!: FormGroup;
-  keywords: string[] = [];
-  @ViewChild('keywordInput', { static: true }) kwi!: ElementRef;
-  @ViewChild('descriptionInput', { static: true }) di!: ElementRef;
-  @ViewChild('metaDescriptionInput', { static: true }) mdi!: ElementRef;
-  @ViewChild('nameInput', { static: true }) ni!: ElementRef;
-  @ViewChild('slugInput', { static: true }) si!: ElementRef;
+  @ViewChild('form') form: any;
   keywordEntered: string = '';
+  keywords: string[] = this.getKeywords();
 
-  constructor() {}
+  constructor(
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private seoService: SeoService
+  ) {}
 
   ngOnInit(): void {
     this.productCategoryForm = new FormGroup({
@@ -57,16 +56,35 @@ export class CreateProductCategoryComponent implements OnInit {
       metaDescription: new FormControl<string>('', Validators.required),
       seo: new FormGroup({
         slug: new FormControl<string>('', Validators.required),
-        keywords: new FormControl<string[]>(this.keywords, Validators.required),
+        keywords: new FormControl<string[]>(this.keywords),
       }),
     });
   }
 
   onSubmit(): void {
-    if (!this.keywords) {
+    if (this.seoService.keywords.length === 0) {
+      Swal.fire({
+        text: 'کلمات کلیدی نمیتواند خالی باشد!',
+        icon: 'error',
+      });
       return;
     }
+
     console.log(this.productCategoryForm.value);
+
+    this.productCategoryForm.reset();
+    this.form.resetForm();
+    this.seoService.keywords = [];
+    this.keywords = this.seoService.keywords;
+    (this.productCategoryForm.controls['seo'] as FormGroup).controls[
+      'keywords'
+    ].patchValue(this.keywords);
+  }
+
+  returnToProductCategories(): void {
+    this.router.navigate(['/product-categories'], {
+      relativeTo: this.activatedRoute,
+    });
   }
 
   activateAddKeywordBtn(): boolean {
@@ -74,28 +92,31 @@ export class CreateProductCategoryComponent implements OnInit {
   }
 
   addNewKeyword(): void {
-    const kw = this.kwi.nativeElement.value
-      .replace(/[^a-z0-9-آ-ی-]/gi, '-')
-      .replace(/-+/g, '-')
-      .replace(/^-|-$/g, '');
-    this.keywords.push(kw);
-    this.kwi.nativeElement.value = '';
+    this.seoService.addNewKeyword(this.keywordEntered);
+    this.keywordEntered = '';
   }
 
   deleteKeyword(index: number): void {
-    this.keywords.splice(index, 1);
+    this.seoService.deleteKeyword(index);
   }
 
   descriptionOut(e: FocusEvent): void {
-    const di = this.di.nativeElement.value;
-    this.mdi.nativeElement.value = di;
+    this.seoService.autoFillMetaDescription(this.productCategoryForm);
   }
 
   nameOut(e: FocusEvent): void {
-    const ni = this.ni.nativeElement.value
-      .replace(/[^a-z0-9-آ-ی-]/gi, '-')
-      .replace(/-+/g, '-')
-      .replace(/^-|-$/g, '');
-    this.si.nativeElement.value = ni;
+    this.seoService.autoFillSlug(this.productCategoryForm);
+  }
+
+  getKeywords(): string[] {
+    return this.seoService.getKeywords();
+  }
+
+  isControlValid(controlName: string, groupName?: string) {
+    return this.seoService.isValid(
+      this.productCategoryForm,
+      controlName,
+      groupName!
+    );
   }
 }
