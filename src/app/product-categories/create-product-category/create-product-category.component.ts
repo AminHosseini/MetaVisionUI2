@@ -17,6 +17,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TextFieldModule } from '@angular/cdk/text-field';
 import { SeoService } from '../../services/seo.service';
 import Swal from 'sweetalert2';
+import { ProductCategoryService } from '../services/product-category.service';
+import { ProductCategoriesGroup } from '../models/product-categories-group.model';
 
 @Component({
   selector: 'app-create-product-category',
@@ -41,14 +43,21 @@ export class CreateProductCategoryComponent implements OnInit {
   @ViewChild('form') form: any;
   keywordEntered: string = '';
   keywords: string[] = this.getKeywords();
+  selectOptions: ProductCategoriesGroup[] = [];
 
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private seoService: SeoService
+    private seoService: SeoService,
+    private productCategoryService: ProductCategoryService
   ) {}
 
   ngOnInit(): void {
+    this.initializeForm();
+    this.fillParentIdSelect();
+  }
+
+  private initializeForm(): void {
     this.productCategoryForm = new FormGroup({
       parentId: new FormControl<number>(0, Validators.required),
       name: new FormControl<string>('', Validators.required),
@@ -61,6 +70,11 @@ export class CreateProductCategoryComponent implements OnInit {
     });
   }
 
+  private fillParentIdSelect(): void {
+    this.selectOptions =
+      this.productCategoryService.getProductCategoriesGroup();
+  }
+
   onSubmit(): void {
     if (this.seoService.keywords.length === 0) {
       Swal.fire({
@@ -69,8 +83,6 @@ export class CreateProductCategoryComponent implements OnInit {
       });
       return;
     }
-
-    console.log(this.productCategoryForm.value);
 
     this.productCategoryForm.reset();
     this.form.resetForm();

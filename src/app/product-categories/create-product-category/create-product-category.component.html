@@ -15,9 +15,13 @@
           <mat-form-field class="full-width">
             <mat-label class="vazir-font">دسته بندی محصول اصلی</mat-label>
             <mat-select formControlName="parentId">
-              <mat-option class="vazir-font" value="0">هیچکدام</mat-option>
-              <mat-option class="vazir-font" value="1">نام یک</mat-option>
-              <mat-option class="vazir-font" value="2">نام دو</mat-option>
+              @for (selectOption of selectOptions; track $index) {
+              <mat-option
+                class="vazir-font"
+                [value]="selectOption.productCategoryId"
+                >{{ selectOption.name }}</mat-option
+              >
+              }
             </mat-select>
             @if (isControlValid('parentId')) {
             <mat-error>این فیلد نمیتواند خالی باشد</mat-error>
@@ -49,7 +53,7 @@
               class="vazir-font"
               formControlName="description"
               (focusout)="descriptionOut($event)"
-              cdkTextareaAutosize 
+              cdkTextareaAutosize
               cdkAutosizeMinRows="3"
               cdkAutosizeMaxRows="5"
             ></textarea>

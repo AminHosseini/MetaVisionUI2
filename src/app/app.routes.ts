@@ -3,10 +3,11 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { CreateProductCategoryComponent } from './product-categories/create-product-category/create-product-category.component';
 import { GetProductCategoriesComponent } from './product-categories/get-product-categories/get-product-categories.component';
 import { GetProductCategoryComponent } from './product-categories/get-product-category/get-product-category.component';
-import { productCategoryResolver } from './product-categories/resolvers/product-category.resolver';
+// import { productCategoryResolver } from './product-categories/resolvers/product-category.resolver';
 import { CreateProductComponent } from './products/create-product/create-product.component';
 import { GetProductComponent } from './products/get-product/get-product.component';
 import { GetProductsComponent } from './products/get-products/get-products.component';
+import { newProductCategoryResolver } from './product-categories/resolvers/new-product-category.resolver';
 
 export const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
@@ -15,10 +16,14 @@ export const routes: Routes = [
   {
     path: 'product-categories',
     component: GetProductCategoriesComponent,
-    resolve: [productCategoryResolver],
+    // resolve: [productCategoryResolver],
   },
 
-  { path: 'product-categories/new', component: CreateProductCategoryComponent },
+  {
+    path: 'product-categories/new',
+    component: CreateProductCategoryComponent,
+    resolve: [newProductCategoryResolver],
+  },
   { path: 'product-categories/:id', component: GetProductCategoryComponent },
 
   {

@@ -1,20 +1,20 @@
 import { Injectable } from '@angular/core';
+import { ProductCategoriesGroup } from '../models/product-categories-group.model';
 import { Subject } from 'rxjs/internal/Subject';
-import { ProductCategoriesModel } from '../models/product-categories.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductCategoryService {
-  private productCategories: ProductCategoriesModel[] = [];
-  productCategoriesChanged = new Subject<ProductCategoriesModel[]>();
+  private productCategoriesGroup: ProductCategoriesGroup[] = [];
 
-  setProductCategories(productCategories: ProductCategoriesModel[]): void {
-    this.productCategories = productCategories;
-    this.productCategoriesChanged.next(this.productCategories.slice());
+  setProductCategoriesGroup(
+    productCategoriesGroup: ProductCategoriesGroup[]
+  ): void {
+    this.productCategoriesGroup = productCategoriesGroup;
   }
 
-  getProductCategories(): ProductCategoriesModel[] {
-    return this.productCategories.slice();
+  getProductCategoriesGroup(): ProductCategoriesGroup[] {
+    return this.productCategoriesGroup;
   }
 }
