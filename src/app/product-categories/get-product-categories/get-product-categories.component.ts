@@ -8,7 +8,6 @@ import {
   GetProductCategoriesDataSource,
   GetProductCategoriesItem,
 } from './get-product-categories-datasource';
-import { ProductCategoryStorageService } from '../services/product-category-storage.service';
 
 @Component({
   selector: 'app-get-product-categories',
@@ -23,11 +22,7 @@ export class GetProductCategoriesComponent implements AfterViewInit {
   @ViewChild(MatTable) table!: MatTable<GetProductCategoriesItem>;
   dataSource = new GetProductCategoriesDataSource();
 
-  constructor(
-    private router: Router,
-    private activatedRoute: ActivatedRoute,
-    private productCategoryStorageService: ProductCategoryStorageService
-  ) {}
+  constructor(private router: Router, private activatedRoute: ActivatedRoute) {}
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns = ['id', 'name'];
@@ -39,9 +34,6 @@ export class GetProductCategoriesComponent implements AfterViewInit {
   }
 
   onAddNew(): void {
-    this.productCategoryStorageService
-      .fetchProductCategoriesGroup()
-      .subscribe();
     this.router.navigate(['new'], {
       relativeTo: this.activatedRoute,
     });

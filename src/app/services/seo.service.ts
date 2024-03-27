@@ -25,9 +25,12 @@ export class SeoService {
 
   autoFillMetaDescription(form: FormGroup): void {
     const di = form.controls['description'].value;
-    form.patchValue({
-      metaDescription: di,
-    });
+    // form.patchValue({
+    //   metaDescription: di,
+    // });
+    (form.controls['seo'] as FormGroup).controls['metaDescription'].patchValue(
+      di
+    );
   }
 
   autoFillSlug(form: FormGroup): void {

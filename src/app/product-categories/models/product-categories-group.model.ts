@@ -1,4 +1,3 @@
-export interface ProductCategoriesGroup {
-  productCategoryId: number;
-  name: string;
+export class ProductCategoriesGroup {
+  constructor(public productCategoryId: number, public name: string) {}
 }

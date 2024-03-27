@@ -10,7 +10,7 @@ export class MetavisionUrlsService {
     return `${this.domain}/product-categories`;
   }
 
-  get productCategoriesGroupUrl(): string {
-    return `${this.domain}/product-categories?$select=productCategoryId,name`;
+  get createProductCategoryUrl(): string {
+    return `${this.domain}/product-categories`;
   }
 }

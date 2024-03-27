@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -55,16 +55,29 @@ export class CreateProductCategoryComponent implements OnInit {
   ngOnInit(): void {
     this.initializeForm();
     this.fillParentIdSelect();
+    this.productCategoryService.setProductCategoriesGroup();
   }
 
   private initializeForm(): void {
     this.productCategoryForm = new FormGroup({
       parentId: new FormControl<number>(0, Validators.required),
-      name: new FormControl<string>('', Validators.required),
-      description: new FormControl<string>('', Validators.required),
-      metaDescription: new FormControl<string>('', Validators.required),
+      name: new FormControl<string>('', [
+        Validators.required,
+        Validators.maxLength(50),
+      ]),
+      description: new FormControl<string>('', [
+        Validators.required,
+        Validators.maxLength(1000),
+      ]),
       seo: new FormGroup({
-        slug: new FormControl<string>('', Validators.required),
+        metaDescription: new FormControl<string>('', [
+          Validators.required,
+          Validators.maxLength(200),
+        ]),
+        slug: new FormControl<string>('', [
+          Validators.required,
+          Validators.maxLength(200),
+        ]),
         keywords: new FormControl<string[]>(this.keywords),
       }),
     });
@@ -83,6 +96,10 @@ export class CreateProductCategoryComponent implements OnInit {
       });
       return;
     }
+
+    this.productCategoryService.createProductCategory(
+      this.productCategoryForm.value
+    );
 
     this.productCategoryForm.reset();
     this.form.resetForm();
