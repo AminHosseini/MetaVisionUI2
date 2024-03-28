@@ -1,9 +1,10 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import {
   FormControl,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
+  ValidationErrors,
   Validators,
 } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
@@ -141,11 +142,25 @@ export class CreateProductCategoryComponent implements OnInit {
     return this.seoService.getKeywords();
   }
 
-  isControlValid(controlName: string, groupName?: string) {
-    return this.seoService.isValid(
+  ControlNotValid(
+    controlName: string,
+    groupName?: string
+  ): boolean | undefined {
+    return this.seoService.isNotValid(
       this.productCategoryForm,
       controlName,
       groupName!
+    );
+  }
+
+  getControlErrors(
+    controlName: string,
+    groupName?: string
+  ): ValidationErrors | undefined | null {
+    return this.seoService.getControlErrors(
+      this.productCategoryForm,
+      controlName,
+      groupName
     );
   }
 }

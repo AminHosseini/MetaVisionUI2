@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AbstractControl, FormGroup } from '@angular/forms';
+import { AbstractControl, FormGroup, ValidationErrors } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root',
@@ -46,7 +46,7 @@ export class SeoService {
     return this.keywords;
   }
 
-  isValid(
+  isNotValid(
     form: FormGroup,
     controlName: string,
     groupName?: string
@@ -58,5 +58,19 @@ export class SeoService {
       control = (form.controls[groupName] as FormGroup).controls[controlName];
     }
     return !control?.valid && control?.touched;
+  }
+
+  getControlErrors(
+    form: FormGroup,
+    controlName: string,
+    groupName?: string
+  ): ValidationErrors | undefined | null {
+    let control: AbstractControl<any, any> | null;
+    if (!groupName) {
+      control = form.get(controlName);
+    } else {
+      control = (form.controls[groupName] as FormGroup).controls[controlName];
+    }
+    return control?.errors;
   }
 }

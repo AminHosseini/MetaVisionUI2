@@ -24,7 +24,7 @@
               >
               }
             </mat-select>
-            @if (isControlValid('parentId')) {
+            @if (ControlNotValid('parentId')) {
             <mat-error>این فیلد نمیتواند خالی باشد</mat-error>
             }
           </mat-form-field>
@@ -39,8 +39,14 @@
               formControlName="name"
               (focusout)="nameOut($event)"
             />
-            @if (isControlValid('name')) {
+            @if (ControlNotValid('name') &&
+            getControlErrors('name')?.['required']) {
             <mat-error>این فیلد نمیتواند خالی باشد</mat-error>
+            } @if (ControlNotValid('name') &&
+            getControlErrors('name')?.['maxlength']) {
+            <mat-error
+              >تعداد کاراکتر های استفاده شده بیشتر از حد مجاز است</mat-error
+            >
             }
           </mat-form-field>
         </div>
@@ -58,8 +64,14 @@
               cdkAutosizeMinRows="3"
               cdkAutosizeMaxRows="5"
             ></textarea>
-            @if (isControlValid('description')) {
+            @if (ControlNotValid('description') &&
+            getControlErrors('description')?.['required']) {
             <mat-error>این فیلد نمیتواند خالی باشد</mat-error>
+            } @if (ControlNotValid('description') &&
+            getControlErrors('description')?.['maxlength']) {
+            <mat-error
+              >تعداد کاراکتر های استفاده شده بیشتر از حد مجاز است</mat-error
+            >
             }
           </mat-form-field>
         </div>
@@ -76,8 +88,14 @@
               cdkAutosizeMinRows="3"
               cdkAutosizeMaxRows="5"
             ></textarea>
-            @if (isControlValid('metaDescription')) {
+            @if (ControlNotValid('metaDescription', 'seo') &&
+            getControlErrors('metaDescription', 'seo')?.['required']) {
             <mat-error>این فیلد نمیتواند خالی باشد</mat-error>
+            } @if (ControlNotValid('metaDescription', 'seo') &&
+            getControlErrors('metaDescription', 'seo')?.['maxlength']) {
+            <mat-error
+              >تعداد کاراکتر های استفاده شده بیشتر از حد مجاز است</mat-error
+            >
             }
           </mat-form-field>
         </div>
@@ -92,8 +110,14 @@
               class="vazir-font"
               formControlName="slug"
             />
-            @if (isControlValid('slug', 'seo')) {
+            @if (ControlNotValid('slug', 'seo') && getControlErrors('slug',
+            'seo')?.['required']) {
             <mat-error>این فیلد نمیتواند خالی باشد</mat-error>
+            } @if (ControlNotValid('slug', 'seo') && getControlErrors('slug',
+            'seo')?.['maxlength']) {
+            <mat-error
+              >تعداد کاراکتر های استفاده شده بیشتر از حد مجاز است</mat-error
+            >
             }
           </mat-form-field>
         </div>
