@@ -5,9 +5,9 @@ import { Subject } from 'rxjs/internal/Subject';
 import Swal from 'sweetalert2';
 import { ProductCategoriesModel } from '../models/product-categories.model';
 import { ProductCategoriesGroup } from '../models/product-categories-group.model';
-import { IdRowVersion } from '../../models/id-rowversion.model';
-import { MetavisionUrlsService } from '../../services/metavision-urls.service';
-import { ErrorHandlerService } from '../../services/error-handler.service';
+import { IdRowVersion } from '../../shared/models/id-rowversion.model';
+import { MetavisionUrlsService } from '../../shared/services/metavision-urls.service';
+import { ErrorHandlerService } from '../../shared/services/error-handler.service';
 
 @Injectable({
   providedIn: 'root',

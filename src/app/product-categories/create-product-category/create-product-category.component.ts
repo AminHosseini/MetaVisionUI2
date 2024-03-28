@@ -16,7 +16,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TextFieldModule } from '@angular/cdk/text-field';
-import { SeoService } from '../../services/seo.service';
+import { SeoService } from '../../shared/services/seo.service';
 import Swal from 'sweetalert2';
 import { ProductCategoryService } from '../services/product-category.service';
 import { ProductCategoriesGroup } from '../models/product-categories-group.model';

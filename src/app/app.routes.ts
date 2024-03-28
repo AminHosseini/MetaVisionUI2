@@ -40,4 +40,7 @@ export const routes: Routes = [
       },
     ],
   },
+
+  // { path: 'not-found', component: ErrorPageComponent, data: { message: 'some message' } },
+  { path: '**', redirectTo: 'not-found' },
 ];
