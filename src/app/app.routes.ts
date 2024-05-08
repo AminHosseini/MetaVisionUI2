@@ -8,6 +8,7 @@ import { CreateProductComponent } from './products/create-product/create-product
 import { GetProductComponent } from './products/get-product/get-product.component';
 import { GetProductsComponent } from './products/get-products/get-products.component';
 import { newProductCategoryResolver } from './product-categories/resolvers/new-product-category.resolver';
+import { NotFoundComponent } from './shared/components/not-found/not-found.component';
 
 export const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
@@ -41,6 +42,6 @@ export const routes: Routes = [
     ],
   },
 
-  // { path: 'not-found', component: ErrorPageComponent, data: { message: 'some message' } },
+  { path: 'not-found', component: NotFoundComponent },
   { path: '**', redirectTo: 'not-found' },
 ];
