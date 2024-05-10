@@ -37,7 +37,7 @@ export class AppComponent implements OnInit {
           routerEvent instanceof NavigationCancel ||
           routerEvent instanceof NavigationError
         ) {
-          this.loadingSpinnerService.endSpinner();
+          this.loadingSpinnerService.resetSpinner();
         }
       },
     });

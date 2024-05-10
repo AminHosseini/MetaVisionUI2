@@ -8,7 +8,6 @@ import { ProductCategoriesGroup } from '../models/product-categories-group.model
 import { IdRowVersion } from '../../shared/models/id-rowversion.model';
 import { MetavisionUrlsService } from '../../shared/services/metavision-urls.service';
 import { ErrorHandlerService } from '../../shared/services/error-handler.service';
-import { LoadingSpinnerService } from '../../shared/components/loading-spinner/loading-spinner.service';
 
 @Injectable({
   providedIn: 'root',
@@ -21,8 +20,7 @@ export class ProductCategoryService {
   constructor(
     private httpClient: HttpClient,
     private metavisionUrlsService: MetavisionUrlsService,
-    private errorHandlerService: ErrorHandlerService,
-    private loadingSpinnerService: LoadingSpinnerService
+    private errorHandlerService: ErrorHandlerService
   ) {}
 
   fetchProductCategories(): Observable<ProductCategoriesModel[]> {
@@ -36,7 +34,6 @@ export class ProductCategoryService {
       },
       // complete: () => {},
       error: (err) => {
-        this.loadingSpinnerService.resetSpinner();
         Swal.fire({
           text: 'مشکلی در دریافت اطلاعات به وجود آمد.',
           icon: 'error',
@@ -54,7 +51,7 @@ export class ProductCategoryService {
       )
       .subscribe({
         next: (idRowVersion: IdRowVersion) => {
-          console.log(idRowVersion);
+          // console.log(idRowVersion);
         },
         complete: () => {
           Swal.fire({
@@ -63,10 +60,9 @@ export class ProductCategoryService {
           });
         },
         error: (err) => {
-          this.loadingSpinnerService.resetSpinner();
           this.errorHandlerService.handleError(err);
           // implement error logic
-          console.log(err);
+          // console.log(err);
           Swal.fire({
             text: 'عملیات با موفقیت انجام نشد.',
             icon: 'error',
@@ -80,15 +76,17 @@ export class ProductCategoryService {
   }
 
   setProductCategoriesGroup(): void {
-    this.productCategories.forEach((productCategory) => {
-      if (productCategory.parentId === null) {
-        let item = new ProductCategoriesGroup(
-          productCategory.productCategoryId,
-          productCategory.name
-        );
-        this.productCategoriesGroup.push(item);
-      }
-    });
+    if (this.productCategoriesGroup.length === 0) {
+      this.productCategories.forEach((productCategory) => {
+        if (productCategory.parentId === null) {
+          let item = new ProductCategoriesGroup(
+            productCategory.productCategoryId,
+            productCategory.name
+          );
+          this.productCategoriesGroup.push(item);
+        }
+      });
+    }
   }
 
   getProductCategoriesGroup(): ProductCategoriesGroup[] {

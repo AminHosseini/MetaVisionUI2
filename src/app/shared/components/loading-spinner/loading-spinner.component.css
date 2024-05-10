@@ -8,4 +8,5 @@
   align-items: center;
   justify-items: center;
   z-index: 10;
+  background-color: rgba(74, 72, 67, 0.5);
 }

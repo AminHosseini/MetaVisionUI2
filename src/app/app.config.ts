@@ -4,6 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { provideClientHydration } from '@angular/platform-browser';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { routes } from './app.routes';
+import { interceptorProvider } from './shared/interceptors/interceptor-provider';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -13,5 +14,6 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(HttpClientModule),
     // importProvidersFrom(RouterModule.forRoot(routes, { enableTracing: true })),
     importProvidersFrom(RouterModule.forRoot(routes)),
+    interceptorProvider,
   ],
 };
