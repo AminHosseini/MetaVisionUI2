@@ -5,9 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-not-found',
   standalone: true,
-  imports: [
-    MatButtonModule
-  ],
+  imports: [MatButtonModule],
   templateUrl: './not-found.component.html',
   styleUrl: './not-found.component.css',
 })

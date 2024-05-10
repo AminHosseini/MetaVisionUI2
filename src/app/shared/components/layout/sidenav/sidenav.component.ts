@@ -23,11 +23,6 @@ export class SidenavComponent {
       label: 'دسته بندی محصولات',
       route: 'product-categories',
     },
-    {
-      icon: 'videocam',
-      label: 'محصولات',
-      route: 'products',
-    },
   ]);
 
   sidenavCollapsed = signal<boolean>(false);

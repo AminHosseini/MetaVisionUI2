@@ -8,6 +8,7 @@ import { ProductCategoriesGroup } from '../models/product-categories-group.model
 import { IdRowVersion } from '../../shared/models/id-rowversion.model';
 import { MetavisionUrlsService } from '../../shared/services/metavision-urls.service';
 import { ErrorHandlerService } from '../../shared/services/error-handler.service';
+import { LoadingSpinnerService } from '../../shared/components/loading-spinner/loading-spinner.service';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +21,8 @@ export class ProductCategoryService {
   constructor(
     private httpClient: HttpClient,
     private metavisionUrlsService: MetavisionUrlsService,
-    private errorHandlerService: ErrorHandlerService
+    private errorHandlerService: ErrorHandlerService,
+    private loadingSpinnerService: LoadingSpinnerService
   ) {}
 
   fetchProductCategories(): Observable<ProductCategoriesModel[]> {
@@ -34,6 +36,7 @@ export class ProductCategoryService {
       },
       // complete: () => {},
       error: (err) => {
+        this.loadingSpinnerService.resetSpinner();
         Swal.fire({
           text: 'مشکلی در دریافت اطلاعات به وجود آمد.',
           icon: 'error',
@@ -50,7 +53,9 @@ export class ProductCategoryService {
         productCategory
       )
       .subscribe({
-        // next: (idRowVersion: IdRowVersion) => {},
+        next: (idRowVersion: IdRowVersion) => {
+          console.log(idRowVersion);
+        },
         complete: () => {
           Swal.fire({
             text: 'عملیات با موفقیت انجام شد.',
@@ -58,6 +63,7 @@ export class ProductCategoryService {
           });
         },
         error: (err) => {
+          this.loadingSpinnerService.resetSpinner();
           this.errorHandlerService.handleError(err);
           // implement error logic
           console.log(err);
@@ -88,6 +94,4 @@ export class ProductCategoryService {
   getProductCategoriesGroup(): ProductCategoriesGroup[] {
     return this.productCategoriesGroup;
   }
-
-  // createProductCategory(): IdRowVersion {}
 }
