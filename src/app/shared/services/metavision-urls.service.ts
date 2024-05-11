@@ -13,4 +13,8 @@ export class MetavisionUrlsService {
   get createProductCategoryUrl(): string {
     return `${this.domain}/product-categories`;
   }
+
+  get productCategoriesGroupUrl(): string {
+    return `${this.domain}/product-categories?select=productCategoryId,parentId,name&filter=parentId eq null`;
+  }
 }

@@ -16,8 +16,8 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TextFieldModule } from '@angular/cdk/text-field';
-import { SeoService } from '../../shared/services/seo.service';
 import Swal from 'sweetalert2';
+import { SeoService } from '../../shared/services/seo.service';
 import { ProductCategoryService } from '../services/product-category.service';
 import { ProductCategoriesGroup } from '../models/product-categories-group.model';
 
@@ -56,7 +56,6 @@ export class CreateProductCategoryComponent implements OnInit {
   ngOnInit(): void {
     this.initializeForm();
     this.fillParentIdSelect();
-    this.productCategoryService.setProductCategoriesGroup();
   }
 
   private initializeForm(): void {

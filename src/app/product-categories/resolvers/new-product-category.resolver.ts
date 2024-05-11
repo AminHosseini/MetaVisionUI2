@@ -8,5 +8,5 @@ export const newProductCategoryResolver: ResolveFn<ProductCategoriesGroup[]> = (
   state
 ) => {
   const productCategoryService = inject(ProductCategoryService);
-  return productCategoryService.fetchProductCategories();
+  return productCategoryService.fetchProductCategoriesGroup();
 };

@@ -15,7 +15,9 @@ import { ErrorHandlerService } from '../../shared/services/error-handler.service
 export class ProductCategoryService {
   private productCategories: ProductCategoriesModel[] = [];
   productCategoriesChanged = new Subject<ProductCategoriesModel[]>();
+
   private productCategoriesGroup: ProductCategoriesGroup[] = [];
+  productCategoriesGroupChanged = new Subject<ProductCategoriesGroup[]>();
 
   constructor(
     private httpClient: HttpClient,
@@ -75,18 +77,24 @@ export class ProductCategoryService {
     return this.productCategories;
   }
 
-  setProductCategoriesGroup(): void {
-    if (this.productCategoriesGroup.length === 0) {
-      this.productCategories.forEach((productCategory) => {
-        if (productCategory.parentId === null) {
-          let item = new ProductCategoriesGroup(
-            productCategory.productCategoryId,
-            productCategory.name
-          );
-          this.productCategoriesGroup.push(item);
-        }
-      });
-    }
+  fetchProductCategoriesGroup(): Observable<ProductCategoriesGroup[]> {
+    const data = this.httpClient.get<ProductCategoriesGroup[]>(
+      this.metavisionUrlsService.productCategoriesGroupUrl
+    );
+    data.subscribe({
+      next: (productCategoriesGroup: ProductCategoriesGroup[]) => {
+        this.productCategoriesGroup = productCategoriesGroup;
+        this.productCategoriesGroupChanged.next(this.productCategoriesGroup);
+      },
+      // complete: () => {},
+      error: (err) => {
+        Swal.fire({
+          text: 'مشکلی در دریافت اطلاعات به وجود آمد.',
+          icon: 'error',
+        });
+      },
+    });
+    return data;
   }
 
   getProductCategoriesGroup(): ProductCategoriesGroup[] {
