@@ -17,9 +17,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TextFieldModule } from '@angular/cdk/text-field';
 import Swal from 'sweetalert2';
-import { SeoService } from '../../shared/services/seo.service';
+import { HelperService } from '../../shared/services/helper.service';
 import { ProductCategoryService } from '../services/product-category.service';
-import { ProductCategoriesGroup } from '../models/product-categories-group.model';
+import { ProductCategoriesGroupModel } from '../models/product-categories-group.model';
 
 @Component({
   selector: 'app-create-product-category',
@@ -44,12 +44,12 @@ export class CreateProductCategoryComponent implements OnInit {
   @ViewChild('form') form: any;
   keywordEntered: string = '';
   keywords: string[] = this.getKeywords();
-  selectOptions: ProductCategoriesGroup[] = [];
+  selectOptions: ProductCategoriesGroupModel[] = [];
 
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private seoService: SeoService,
+    private helperService: HelperService,
     private productCategoryService: ProductCategoryService
   ) {}
 
@@ -89,7 +89,7 @@ export class CreateProductCategoryComponent implements OnInit {
   }
 
   onSubmit(): void {
-    if (this.seoService.keywords.length === 0) {
+    if (this.helperService.keywords.length === 0) {
       Swal.fire({
         text: 'کلمات کلیدی نمیتواند خالی باشد!',
         icon: 'error',
@@ -103,8 +103,8 @@ export class CreateProductCategoryComponent implements OnInit {
 
     this.productCategoryForm.reset();
     this.form.resetForm();
-    this.seoService.keywords = [];
-    this.keywords = this.seoService.keywords;
+    this.helperService.keywords = [];
+    this.keywords = this.helperService.keywords;
     (this.productCategoryForm.controls['seo'] as FormGroup).controls[
       'keywords'
     ].patchValue(this.keywords);
@@ -121,31 +121,31 @@ export class CreateProductCategoryComponent implements OnInit {
   }
 
   addNewKeyword(): void {
-    this.seoService.addNewKeyword(this.keywordEntered);
+    this.helperService.addNewKeyword(this.keywordEntered);
     this.keywordEntered = '';
   }
 
   deleteKeyword(index: number): void {
-    this.seoService.deleteKeyword(index);
+    this.helperService.deleteKeyword(index);
   }
 
   descriptionOut(e: FocusEvent): void {
-    this.seoService.autoFillMetaDescription(this.productCategoryForm);
+    this.helperService.autoFillMetaDescription(this.productCategoryForm);
   }
 
   nameOut(e: FocusEvent): void {
-    this.seoService.autoFillSlug(this.productCategoryForm);
+    this.helperService.autoFillSlug(this.productCategoryForm);
   }
 
   getKeywords(): string[] {
-    return this.seoService.getKeywords();
+    return this.helperService.getKeywords();
   }
 
   ControlNotValid(
     controlName: string,
     groupName?: string
   ): boolean | undefined {
-    return this.seoService.isNotValid(
+    return this.helperService.isNotValid(
       this.productCategoryForm,
       controlName,
       groupName!
@@ -156,7 +156,7 @@ export class CreateProductCategoryComponent implements OnInit {
     controlName: string,
     groupName?: string
   ): ValidationErrors | undefined | null {
-    return this.seoService.getControlErrors(
+    return this.helperService.getControlErrors(
       this.productCategoryForm,
       controlName,
       groupName

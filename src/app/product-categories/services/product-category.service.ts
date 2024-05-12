@@ -4,8 +4,8 @@ import { Observable } from 'rxjs';
 import { Subject } from 'rxjs/internal/Subject';
 import Swal from 'sweetalert2';
 import { ProductCategoriesModel } from '../models/product-categories.model';
-import { ProductCategoriesGroup } from '../models/product-categories-group.model';
-import { IdRowVersion } from '../../shared/models/id-rowversion.model';
+import { ProductCategoriesGroupModel } from '../models/product-categories-group.model';
+import { IdRowVersionModel } from '../../shared/models/id-rowversion.model';
 import { MetavisionUrlsService } from '../../shared/services/metavision-urls.service';
 import { ErrorHandlerService } from '../../shared/services/error-handler.service';
 
@@ -16,8 +16,8 @@ export class ProductCategoryService {
   private productCategories: ProductCategoriesModel[] = [];
   productCategoriesChanged = new Subject<ProductCategoriesModel[]>();
 
-  private productCategoriesGroup: ProductCategoriesGroup[] = [];
-  productCategoriesGroupChanged = new Subject<ProductCategoriesGroup[]>();
+  private productCategoriesGroup: ProductCategoriesGroupModel[] = [];
+  productCategoriesGroupChanged = new Subject<ProductCategoriesGroupModel[]>();
 
   constructor(
     private httpClient: HttpClient,
@@ -47,12 +47,12 @@ export class ProductCategoryService {
 
   createProductCategory(productCategory: ProductCategoriesModel): void {
     this.httpClient
-      .post<IdRowVersion>(
+      .post<IdRowVersionModel>(
         this.metavisionUrlsService.createProductCategoryUrl,
         productCategory
       )
       .subscribe({
-        next: (idRowVersion: IdRowVersion) => {
+        next: (idRowVersion: IdRowVersionModel) => {
           // console.log(idRowVersion);
         },
         complete: () => {
@@ -77,12 +77,12 @@ export class ProductCategoryService {
     return this.productCategories;
   }
 
-  fetchProductCategoriesGroup(): Observable<ProductCategoriesGroup[]> {
-    const data = this.httpClient.get<ProductCategoriesGroup[]>(
+  fetchProductCategoriesGroup(): Observable<ProductCategoriesGroupModel[]> {
+    const data = this.httpClient.get<ProductCategoriesGroupModel[]>(
       this.metavisionUrlsService.productCategoriesGroupUrl
     );
     data.subscribe({
-      next: (productCategoriesGroup: ProductCategoriesGroup[]) => {
+      next: (productCategoriesGroup: ProductCategoriesGroupModel[]) => {
         this.productCategoriesGroup = productCategoriesGroup;
         this.productCategoriesGroupChanged.next(this.productCategoriesGroup);
       },
@@ -97,7 +97,7 @@ export class ProductCategoryService {
     return data;
   }
 
-  getProductCategoriesGroup(): ProductCategoriesGroup[] {
+  getProductCategoriesGroup(): ProductCategoriesGroupModel[] {
     return this.productCategoriesGroup;
   }
 }

@@ -2,7 +2,7 @@ import { Component, Input, computed, signal } from '@angular/core';
 import { RouterLinkActive, RouterModule } from '@angular/router';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
-import { MenuItem } from './MenuItem';
+import { MenuItemModel } from './menu-item.model';
 
 @Component({
   selector: 'app-sidenav',
@@ -12,7 +12,7 @@ import { MenuItem } from './MenuItem';
   styleUrl: './sidenav.component.css',
 })
 export class SidenavComponent {
-  menuItems = signal<MenuItem[]>([
+  menuItems = signal<MenuItemModel[]>([
     {
       icon: 'dashboard',
       label: 'داشبورد',

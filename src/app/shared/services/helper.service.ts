@@ -4,7 +4,7 @@ import { AbstractControl, FormGroup, ValidationErrors } from '@angular/forms';
 @Injectable({
   providedIn: 'root',
 })
-export class SeoService {
+export class HelperService {
   keywords: string[] = [];
 
   constructor() {}
@@ -25,6 +25,9 @@ export class SeoService {
 
   autoFillMetaDescription(form: FormGroup): void {
     const di = form.controls['description'].value;
+    if (!di) {
+      return;
+    }
     // form.patchValue({
     //   metaDescription: di,
     // });
@@ -34,8 +37,11 @@ export class SeoService {
   }
 
   autoFillSlug(form: FormGroup): void {
-    const ni = form.controls['name'].value
-      .replace(/[^a-z0-9-آ-ی-]/gi, '-')
+    const ni = form.controls['name'].value;
+    if (!ni) {
+      return;
+    }
+    ni.replace(/[^a-z0-9-آ-ی-]/gi, '-')
       .replace(/-+/g, '-')
       .replace(/^-|-$/g, '');
 
