@@ -36,10 +36,7 @@ export class ProductCategoryService {
       },
       // complete: () => {},
       error: (err) => {
-        Swal.fire({
-          text: 'مشکلی در دریافت اطلاعات به وجود آمد.',
-          icon: 'error',
-        });
+        this.errorHandlerService.handleError(err.status);
       },
     });
     return data;
@@ -62,13 +59,7 @@ export class ProductCategoryService {
           });
         },
         error: (err) => {
-          this.errorHandlerService.handleError(err);
-          // implement error logic
-          // console.log(err);
-          Swal.fire({
-            text: 'عملیات با موفقیت انجام نشد.',
-            icon: 'error',
-          });
+          this.errorHandlerService.handleError(err.status);
         },
       });
   }
@@ -88,10 +79,7 @@ export class ProductCategoryService {
       },
       // complete: () => {},
       error: (err) => {
-        Swal.fire({
-          text: 'مشکلی در دریافت اطلاعات به وجود آمد.',
-          icon: 'error',
-        });
+        this.errorHandlerService.handleError(err.status);
       },
     });
     return data;
