@@ -54,8 +54,10 @@ export class ProductCategoryService {
         },
         complete: () => {
           Swal.fire({
-            text: 'عملیات با موفقیت انجام شد.',
-            icon: 'success',
+            icon: "success",
+            title: 'عملیات با موفقیت انجام شد.',
+            showConfirmButton: false,
+            timer: 1500
           });
         },
         error: (err) => {

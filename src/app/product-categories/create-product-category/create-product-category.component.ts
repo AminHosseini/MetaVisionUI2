@@ -20,6 +20,7 @@ import Swal from 'sweetalert2';
 import { HelperService } from '../../shared/services/helper.service';
 import { ProductCategoryService } from '../services/product-category.service';
 import { ProductCategoriesGroupModel } from '../models/product-categories-group.model';
+// import { ICanComponentDeactivate } from '../../shared/helpers/ICanComponentDeactivate';
 
 @Component({
   selector: 'app-create-product-category',
@@ -40,6 +41,8 @@ import { ProductCategoriesGroupModel } from '../models/product-categories-group.
   styleUrl: './create-product-category.component.css',
 })
 export class CreateProductCategoryComponent implements OnInit {
+  //, ICanComponentDeactivate
+
   productCategoryForm!: FormGroup;
   @ViewChild('form') form: any;
   keywordEntered: string = '';
@@ -91,8 +94,10 @@ export class CreateProductCategoryComponent implements OnInit {
   onSubmit(): void {
     if (this.helperService.keywords.length === 0) {
       Swal.fire({
-        text: 'کلمات کلیدی نمیتواند خالی باشد!',
+        showConfirmButton: false,
+        timer: 2000,
         icon: 'error',
+        text: 'کلمات کلیدی نمیتواند خالی باشد!',
       });
       return;
     }
@@ -162,4 +167,27 @@ export class CreateProductCategoryComponent implements OnInit {
       groupName
     );
   }
+
+  // canDeactivate(): boolean {
+  //   let outcome: boolean = false
+  //   if (this.productCategoryForm.touched || this.productCategoryForm !== null) {
+  //     Swal.fire({
+  //       title: 'آیا خارج میشوید؟',
+  //       text: 'در صورت خارج شدن اطلاعات وارد شده در این فرم از بین میروند.',
+  //       icon: 'warning',
+  //       showCancelButton: true,
+  //       confirmButtonColor: '#3085d6',
+  //       cancelButtonColor: '#d33',
+  //       confirmButtonText: 'بله',
+  //       cancelButtonText: 'خیر',
+  //     }).then((result) => {
+  //       if (result.isConfirmed) {
+  //         outcome = false;
+  //       } else {
+  //         outcome = true;
+  //       }
+  //     });
+  //   }
+  //   return outcome;
+  // }
 }

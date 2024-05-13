@@ -20,7 +20,10 @@ export class ErrorHandlerService {
           relativeTo: this.activatedRoute,
         });
         Swal.fire({
-          text: 'مشکلی در دریافت اطلاعات به وجود آمد. لطفا سریعا با کارشناسان ما تماس بگیرید.',
+          title: 'خطا در دریافت اطلاعات',
+          text: 'لطفا کارشناسان مارا از خطای به وجود آمده مطلع سازید.',
+          showConfirmButton: false,
+          timer: 6000,
           icon: 'error',
         });
         break;
@@ -29,7 +32,10 @@ export class ErrorHandlerService {
           relativeTo: this.activatedRoute,
         });
         Swal.fire({
-          text: 'مشکلی در دریافت اطلاعات به وجود آمد. لطفا سریعا با کارشناسان ما تماس بگیرید.',
+          title: 'خطا در دریافت اطلاعات',
+          text: 'لطفا کارشناسان مارا از خطای به وجود آمده مطلع سازید.',
+          showConfirmButton: false,
+          timer: 6000,
           icon: 'error',
         });
         break;
