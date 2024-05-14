@@ -94,11 +94,15 @@ export class CreateProductCategoryComponent
       this.productCategoryService.getProductCategoriesGroup();
   }
 
-  onSubmit(): void {
+  onSubmit(focusElement: HTMLElement): void {
     if (this.helperService.keywords.length === 0) {
       this.alertService.emptyKeywordsAlert();
       return;
     }
+
+    focusElement.scrollIntoView({
+      behavior: 'smooth',
+    });
 
     this.productCategoryService.createProductCategory(
       this.productCategoryForm.value

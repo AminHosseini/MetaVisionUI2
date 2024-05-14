@@ -1,8 +1,9 @@
 <form
   class="form-container"
   [formGroup]="productCategoryForm"
-  (ngSubmit)="onSubmit()"
+  (ngSubmit)="onSubmit(focusElement)"
   #form="ngForm"
+  #focusElement
 >
   <mat-card>
     <mat-card-header>
