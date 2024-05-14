@@ -16,11 +16,12 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TextFieldModule } from '@angular/cdk/text-field';
-import Swal from 'sweetalert2';
 import { HelperService } from '../../shared/services/helper.service';
 import { ProductCategoryService } from '../services/product-category.service';
 import { ProductCategoriesGroupModel } from '../models/product-categories-group.model';
-// import { ICanComponentDeactivate } from '../../shared/helpers/ICanComponentDeactivate';
+import { ICanComponentDeactivate } from '../../shared/interfaces/ICanComponentDeactivate';
+import { GuardsHelperService } from '../../shared/services/guards-helper.service';
+import { AlertService } from '../../shared/services/alert.service';
 
 @Component({
   selector: 'app-create-product-category',
@@ -40,9 +41,9 @@ import { ProductCategoriesGroupModel } from '../models/product-categories-group.
   templateUrl: './create-product-category.component.html',
   styleUrl: './create-product-category.component.css',
 })
-export class CreateProductCategoryComponent implements OnInit {
-  //, ICanComponentDeactivate
-
+export class CreateProductCategoryComponent
+  implements OnInit, ICanComponentDeactivate
+{
   productCategoryForm!: FormGroup;
   @ViewChild('form') form: any;
   keywordEntered: string = '';
@@ -53,7 +54,9 @@ export class CreateProductCategoryComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private helperService: HelperService,
-    private productCategoryService: ProductCategoryService
+    private productCategoryService: ProductCategoryService,
+    private guardsHelperService: GuardsHelperService,
+    private alertService: AlertService
   ) {}
 
   ngOnInit(): void {
@@ -93,12 +96,7 @@ export class CreateProductCategoryComponent implements OnInit {
 
   onSubmit(): void {
     if (this.helperService.keywords.length === 0) {
-      Swal.fire({
-        showConfirmButton: false,
-        timer: 2000,
-        icon: 'error',
-        text: 'کلمات کلیدی نمیتواند خالی باشد!',
-      });
+      this.alertService.emptyKeywordsAlert();
       return;
     }
 
@@ -168,26 +166,9 @@ export class CreateProductCategoryComponent implements OnInit {
     );
   }
 
-  // canDeactivate(): boolean {
-  //   let outcome: boolean = false
-  //   if (this.productCategoryForm.touched || this.productCategoryForm !== null) {
-  //     Swal.fire({
-  //       title: 'آیا خارج میشوید؟',
-  //       text: 'در صورت خارج شدن اطلاعات وارد شده در این فرم از بین میروند.',
-  //       icon: 'warning',
-  //       showCancelButton: true,
-  //       confirmButtonColor: '#3085d6',
-  //       cancelButtonColor: '#d33',
-  //       confirmButtonText: 'بله',
-  //       cancelButtonText: 'خیر',
-  //     }).then((result) => {
-  //       if (result.isConfirmed) {
-  //         outcome = false;
-  //       } else {
-  //         outcome = true;
-  //       }
-  //     });
-  //   }
-  //   return outcome;
-  // }
+  async canDeactivate(): Promise<boolean> {
+    return await this.guardsHelperService.canDeactivateAsync(
+      this.productCategoryForm
+    );
+  }
 }

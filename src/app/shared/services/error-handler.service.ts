@@ -1,12 +1,16 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import Swal from 'sweetalert2';
+import { AlertService } from './alert.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ErrorHandlerService {
-  constructor(private router: Router, private activatedRoute: ActivatedRoute) {}
+  constructor(
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private alertService: AlertService
+  ) {}
 
   handleError(statusCode: number) {
     switch (statusCode) {
@@ -19,25 +23,13 @@ export class ErrorHandlerService {
         this.router.navigate(['/dashboard'], {
           relativeTo: this.activatedRoute,
         });
-        Swal.fire({
-          title: 'خطا در دریافت اطلاعات',
-          text: 'لطفا کارشناسان مارا از خطای به وجود آمده مطلع سازید.',
-          showConfirmButton: false,
-          timer: 6000,
-          icon: 'error',
-        });
+        this.alertService.errorAlert();
         break;
       default:
         this.router.navigate(['/dashboard'], {
           relativeTo: this.activatedRoute,
         });
-        Swal.fire({
-          title: 'خطا در دریافت اطلاعات',
-          text: 'لطفا کارشناسان مارا از خطای به وجود آمده مطلع سازید.',
-          showConfirmButton: false,
-          timer: 6000,
-          icon: 'error',
-        });
+        this.alertService.errorAlert();
         break;
     }
   }
