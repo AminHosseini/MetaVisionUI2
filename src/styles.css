@@ -57,9 +57,6 @@ body {
 body {
   margin: 0;
   font-family: vazir;
-  --primary-color: #9966CC;
-}
-
-.vazir-font {
-  font-family: vazir;
+  color: #4a4f4b;
+  --primary-color: #9966cc;
 }

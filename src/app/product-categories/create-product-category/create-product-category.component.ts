@@ -22,6 +22,13 @@ import { ProductCategoriesGroupModel } from '../models/product-categories-group.
 import { ICanComponentDeactivate } from '../../shared/interfaces/ICanComponentDeactivate';
 import { GuardsHelperService } from '../../shared/services/guards-helper.service';
 import { AlertService } from '../../shared/services/alert.service';
+import { ButtonHelperDirective } from '../../shared/directives/button-helper.directive';
+import { AddIconDirective } from '../../shared/directives/add-icon.directive';
+import { FontHelperDirective } from '../../shared/directives/font-helper.directive';
+import { KeywordElementDirective } from '../../shared/directives/keyword-element.directive';
+import { FormFieldDirective } from '../../shared/directives/form-field.directive';
+import { DeleteKeywordBtnDirective } from '../../shared/directives/delete-keyword-btn.directive';
+import { AddKeywordsBtnDirective } from '../../shared/directives/add-keywords-btn.directive';
 
 @Component({
   selector: 'app-create-product-category',
@@ -37,6 +44,13 @@ import { AlertService } from '../../shared/services/alert.service';
     ReactiveFormsModule,
     FormsModule,
     TextFieldModule,
+    ButtonHelperDirective,
+    AddIconDirective,
+    FontHelperDirective,
+    KeywordElementDirective,
+    FormFieldDirective,
+    DeleteKeywordBtnDirective,
+    AddKeywordsBtnDirective,
   ],
   templateUrl: './create-product-category.component.html',
   styleUrl: './create-product-category.component.css',

@@ -13,13 +13,13 @@
     <mat-card-content>
       <div class="row">
         <div class="col-md-6">
-          <mat-form-field class="full-width">
-            <mat-label class="vazir-font">دسته بندی محصول اصلی</mat-label>
+          <mat-form-field appFormField>
+            <mat-label appFontHelper>دسته بندی محصول اصلی</mat-label>
             <mat-select formControlName="parentId">
-              <mat-option class="vazir-font" [value]="0">هیچکدام</mat-option>
+              <mat-option appFontHelper [value]="0">هیچکدام</mat-option>
               @for (selectOption of selectOptions; track $index) {
               <mat-option
-                class="vazir-font"
+                appFontHelper
                 [value]="selectOption.productCategoryId"
                 >{{ selectOption.name }}</mat-option
               >
@@ -31,12 +31,12 @@
           </mat-form-field>
         </div>
         <div class="col-md-6">
-          <mat-form-field class="full-width">
-            <mat-label class="vazir-font">نام</mat-label>
+          <mat-form-field appFormField>
+            <mat-label appFontHelper>نام</mat-label>
             <input
               type="text"
               matInput
-              class="vazir-font"
+              appFontHelper
               formControlName="name"
               (focusout)="nameOut($event)"
             />
@@ -54,11 +54,11 @@
       </div>
       <div class="row">
         <div class="col-md-12">
-          <mat-form-field class="full-width">
-            <mat-label class="vazir-font">توضیحات</mat-label>
+          <mat-form-field appFormField>
+            <mat-label appFontHelper>توضیحات</mat-label>
             <textarea
               matInput
-              class="vazir-font"
+              appFontHelper
               formControlName="description"
               (focusout)="descriptionOut($event)"
               cdkTextareaAutosize
@@ -79,11 +79,11 @@
       </div>
       <div class="row" formGroupName="seo">
         <div class="col-md-12">
-          <mat-form-field class="full-width">
-            <mat-label class="vazir-font">توضیحات متا</mat-label>
+          <mat-form-field appFormField>
+            <mat-label appFontHelper>توضیحات متا</mat-label>
             <textarea
               matInput
-              class="vazir-font"
+              appFontHelper
               formControlName="metaDescription"
               cdkTextareaAutosize
               cdkAutosizeMinRows="3"
@@ -103,14 +103,9 @@
       </div>
       <div class="row" formGroupName="seo">
         <div class="col-md-12">
-          <mat-form-field class="full-width">
-            <mat-label class="vazir-font">اسلاگ</mat-label>
-            <input
-              type="text"
-              matInput
-              class="vazir-font"
-              formControlName="slug"
-            />
+          <mat-form-field appFormField>
+            <mat-label appFontHelper>اسلاگ</mat-label>
+            <input type="text" matInput appFontHelper formControlName="slug" />
             @if (ControlNotValid('slug', 'seo') && getControlErrors('slug',
             'seo')?.['required']) {
             <mat-error>این فیلد نمیتواند خالی باشد</mat-error>
@@ -125,12 +120,12 @@
       </div>
       <div class="row">
         <div class="col-md-10">
-          <mat-form-field class="full-width">
-            <mat-label class="vazir-font">کلمات کلیدی</mat-label>
+          <mat-form-field appFormField>
+            <mat-label appFontHelper>کلمات کلیدی</mat-label>
             <input
               type="text"
               matInput
-              class="vazir-font"
+              appFontHelper
               [(ngModel)]="keywordEntered"
               [ngModelOptions]="{ standalone: true }"
             />
@@ -138,16 +133,15 @@
         </div>
         <div class="col-md-2">
           <button
-            class="vazir-font add-btn"
+            appFontHelper
+            appAddKeywordsBtn
             mat-raised-button
             color="primary"
             type="button"
             (click)="addNewKeyword()"
             [disabled]="activateAddKeywordBtn()"
           >
-            <mat-icon style="font-weight: bolder; font-size: 20px"
-              >add</mat-icon
-            >
+            <mat-icon appAddIcon>add</mat-icon>
           </button>
         </div>
       </div>
@@ -161,10 +155,10 @@
             [value]="keywords"
           />
           @for (keyword of keywords; track $index) {
-          <div class="keyword-element">
-            <span style="color: black">{{ keyword }}</span>
+          <div appKeywordElement>
+            <span appFontHelper>{{ keyword }}</span>
             <button
-              class="keyword-btn"
+              appDeleteKeywordBtn
               type="button"
               (click)="deleteKeyword($index)"
             >
@@ -177,8 +171,7 @@
       }
       <br /><br /><br />
       <button
-        class="vazir-font"
-        style="margin-left: 10px"
+        appButtonHelper
         mat-raised-button
         type="button"
         (click)="returnToProductCategories()"
@@ -186,7 +179,7 @@
         بازگشت
       </button>
       <button
-        class="vazir-font"
+        appButtonHelper
         mat-raised-button
         color="primary"
         type="submit"
