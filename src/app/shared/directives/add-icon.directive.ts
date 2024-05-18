@@ -1,7 +1,7 @@
 import { Directive, ElementRef, OnInit, Renderer2 } from '@angular/core';
 
 @Directive({
-  selector: '[appAddIcon]',
+  selector: '[metavisionAddIcon]',
   standalone: true,
 })
 export class AddIconDirective implements OnInit {

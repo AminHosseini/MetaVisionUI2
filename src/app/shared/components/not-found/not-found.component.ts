@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ButtonHelperDirective } from '../../directives/button-helper.directive';
 
 @Component({
-  selector: 'app-not-found',
+  selector: 'metavision-not-found',
   standalone: true,
   imports: [MatButtonModule, ButtonHelperDirective],
   templateUrl: './not-found.component.html',

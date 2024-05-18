@@ -1,7 +1,7 @@
 import { Directive, ElementRef, OnInit, Renderer2 } from '@angular/core';
 
 @Directive({
-  selector: '[appFormField]',
+  selector: '[metavisionFormField]',
   standalone: true,
 })
 export class FormFieldDirective implements OnInit {

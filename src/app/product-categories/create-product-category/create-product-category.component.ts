@@ -31,7 +31,7 @@ import { DeleteKeywordBtnDirective } from '../../shared/directives/delete-keywor
 import { AddKeywordsBtnDirective } from '../../shared/directives/add-keywords-btn.directive';
 
 @Component({
-  selector: 'app-create-product-category',
+  selector: 'shop-create-product-category',
   standalone: true,
   imports: [
     MatFormFieldModule,

@@ -1,7 +1,7 @@
 import { Directive, ElementRef, OnInit, Renderer2 } from '@angular/core';
 
 @Directive({
-  selector: '[appKeywordElement]',
+  selector: '[metavisionKeywordElement]',
   standalone: true,
 })
 export class KeywordElementDirective implements OnInit {

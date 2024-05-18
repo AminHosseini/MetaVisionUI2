@@ -13,13 +13,13 @@
     <mat-card-content>
       <div class="row">
         <div class="col-md-6">
-          <mat-form-field appFormField>
-            <mat-label appFontHelper>دسته بندی محصول اصلی</mat-label>
+          <mat-form-field metavisionFormField>
+            <mat-label metavisionFontHelper>دسته بندی محصول اصلی</mat-label>
             <mat-select formControlName="parentId">
-              <mat-option appFontHelper [value]="0">هیچکدام</mat-option>
+              <mat-option metavisionFontHelper [value]="0">هیچکدام</mat-option>
               @for (selectOption of selectOptions; track $index) {
               <mat-option
-                appFontHelper
+                metavisionFontHelper
                 [value]="selectOption.productCategoryId"
                 >{{ selectOption.name }}</mat-option
               >
@@ -31,12 +31,12 @@
           </mat-form-field>
         </div>
         <div class="col-md-6">
-          <mat-form-field appFormField>
-            <mat-label appFontHelper>نام</mat-label>
+          <mat-form-field metavisionFormField>
+            <mat-label metavisionFontHelper>نام</mat-label>
             <input
               type="text"
               matInput
-              appFontHelper
+              metavisionFontHelper
               formControlName="name"
               (focusout)="nameOut($event)"
             />
@@ -54,11 +54,11 @@
       </div>
       <div class="row">
         <div class="col-md-12">
-          <mat-form-field appFormField>
-            <mat-label appFontHelper>توضیحات</mat-label>
+          <mat-form-field metavisionFormField>
+            <mat-label metavisionFontHelper>توضیحات</mat-label>
             <textarea
               matInput
-              appFontHelper
+              metavisionFontHelper
               formControlName="description"
               (focusout)="descriptionOut($event)"
               cdkTextareaAutosize
@@ -79,11 +79,11 @@
       </div>
       <div class="row" formGroupName="seo">
         <div class="col-md-12">
-          <mat-form-field appFormField>
-            <mat-label appFontHelper>توضیحات متا</mat-label>
+          <mat-form-field metavisionFormField>
+            <mat-label metavisionFontHelper>توضیحات متا</mat-label>
             <textarea
               matInput
-              appFontHelper
+              metavisionFontHelper
               formControlName="metaDescription"
               cdkTextareaAutosize
               cdkAutosizeMinRows="3"
@@ -103,9 +103,14 @@
       </div>
       <div class="row" formGroupName="seo">
         <div class="col-md-12">
-          <mat-form-field appFormField>
-            <mat-label appFontHelper>اسلاگ</mat-label>
-            <input type="text" matInput appFontHelper formControlName="slug" />
+          <mat-form-field metavisionFormField>
+            <mat-label metavisionFontHelper>اسلاگ</mat-label>
+            <input
+              type="text"
+              matInput
+              metavisionFontHelper
+              formControlName="slug"
+            />
             @if (ControlNotValid('slug', 'seo') && getControlErrors('slug',
             'seo')?.['required']) {
             <mat-error>این فیلد نمیتواند خالی باشد</mat-error>
@@ -120,12 +125,12 @@
       </div>
       <div class="row">
         <div class="col-md-10">
-          <mat-form-field appFormField>
-            <mat-label appFontHelper>کلمات کلیدی</mat-label>
+          <mat-form-field metavisionFormField>
+            <mat-label metavisionFontHelper>کلمات کلیدی</mat-label>
             <input
               type="text"
               matInput
-              appFontHelper
+              metavisionFontHelper
               [(ngModel)]="keywordEntered"
               [ngModelOptions]="{ standalone: true }"
             />
@@ -133,14 +138,14 @@
         </div>
         <div class="col-md-2">
           <button
-            appAddKeywordsBtn
+            metavisionAddKeywordsBtn
             mat-raised-button
             color="primary"
             type="button"
             (click)="addNewKeyword()"
             [disabled]="activateAddKeywordBtn()"
           >
-            <mat-icon appAddIcon>add</mat-icon>
+            <mat-icon metavisionAddIcon>add</mat-icon>
           </button>
         </div>
       </div>
@@ -154,10 +159,10 @@
             [value]="keywords"
           />
           @for (keyword of keywords; track $index) {
-          <div appKeywordElement>
+          <div metavisionKeywordElement>
             <span>{{ keyword }}</span>
             <button
-              appDeleteKeywordBtn
+              metavisionDeleteKeywordBtn
               type="button"
               (click)="deleteKeyword($index)"
             >
@@ -170,7 +175,7 @@
       }
       <br /><br /><br />
       <button
-        appButtonHelper
+        metavisionButtonHelper
         mat-raised-button
         type="button"
         (click)="returnToProductCategories()"
@@ -178,7 +183,7 @@
         بازگشت
       </button>
       <button
-        appButtonHelper
+        metavisionButtonHelper
         mat-raised-button
         color="primary"
         type="submit"

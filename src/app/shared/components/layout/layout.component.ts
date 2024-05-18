@@ -7,7 +7,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { SidenavComponent } from './sidenav/sidenav.component';
 
 @Component({
-  selector: 'app-layout',
+  selector: 'metavision-layout',
   standalone: true,
   imports: [
     RouterOutlet,

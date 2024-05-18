@@ -5,7 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MenuItemModel } from './menu-item.model';
 
 @Component({
-  selector: 'app-sidenav',
+  selector: 'metavision-sidenav',
   standalone: true,
   imports: [MatListModule, MatIconModule, RouterModule, RouterLinkActive],
   templateUrl: './sidenav.component.html',

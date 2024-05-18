@@ -3,7 +3,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { LoadingSpinnerService } from './loading-spinner.service';
 
 @Component({
-  selector: 'app-loading-spinner',
+  selector: 'metavision-loading-spinner',
   standalone: true,
   imports: [MatProgressSpinnerModule],
   templateUrl: './loading-spinner.component.html',

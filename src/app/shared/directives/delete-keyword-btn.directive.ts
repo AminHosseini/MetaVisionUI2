@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 
 @Directive({
-  selector: '[appDeleteKeywordBtn]',
+  selector: '[metavisionDeleteKeywordBtn]',
   standalone: true,
 })
 export class DeleteKeywordBtnDirective implements OnInit {

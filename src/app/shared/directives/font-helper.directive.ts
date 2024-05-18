@@ -1,7 +1,7 @@
 import { Directive, ElementRef, OnInit, Renderer2 } from '@angular/core';
 
 @Directive({
-  selector: '[appFontHelper]',
+  selector: '[metavisionFontHelper]',
   standalone: true,
 })
 export class FontHelperDirective implements OnInit {

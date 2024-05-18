@@ -1,7 +1,7 @@
 import { Directive, ElementRef, OnInit, Renderer2 } from '@angular/core';
 
 @Directive({
-  selector: '[appAddKeywordsBtn]',
+  selector: '[metavisionAddKeywordsBtn]',
   standalone: true,
 })
 export class AddKeywordsBtnDirective implements OnInit {

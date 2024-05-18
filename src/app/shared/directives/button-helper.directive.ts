@@ -1,7 +1,7 @@
 import { Directive, ElementRef, OnInit, Renderer2 } from '@angular/core';
 
 @Directive({
-  selector: '[appButtonHelper]',
+  selector: '[metavisionButtonHelper]',
   standalone: true,
 })
 export class ButtonHelperDirective implements OnInit {
