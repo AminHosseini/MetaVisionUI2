@@ -28,10 +28,10 @@ export class DeleteKeywordBtnDirective implements OnInit {
   }
 
   @HostListener('mouseenter') mouseover(eventData: MouseEvent) {
-    this.renderer2.setStyle(this.elementRef.nativeElement, 'color', 'ffffff');
+    this.renderer2.setStyle(this.elementRef.nativeElement, 'color', '#ffffff');
   }
 
   @HostListener('mouseleave') mouseleave(eventData: MouseEvent) {
-    this.renderer2.setStyle(this.elementRef.nativeElement, 'color', '#4a4f4b');
+    this.renderer2.setStyle(this.elementRef.nativeElement, 'color', 'black');
   }
 }

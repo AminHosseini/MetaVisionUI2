@@ -133,7 +133,6 @@
         </div>
         <div class="col-md-2">
           <button
-            appFontHelper
             appAddKeywordsBtn
             mat-raised-button
             color="primary"
@@ -156,7 +155,7 @@
           />
           @for (keyword of keywords; track $index) {
           <div appKeywordElement>
-            <span appFontHelper>{{ keyword }}</span>
+            <span>{{ keyword }}</span>
             <button
               appDeleteKeywordBtn
               type="button"
