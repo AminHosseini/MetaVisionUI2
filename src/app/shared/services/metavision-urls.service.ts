@@ -5,7 +5,8 @@ import { Injectable } from '@angular/core';
 })
 export class MetavisionUrlsService {
   private domain: string = 'https://localhost:7191/api';
-
+  
+  //#region productCategories
   get productCategoriesUrl(): string {
     return `${this.domain}/product-categories`;
   }
@@ -17,4 +18,5 @@ export class MetavisionUrlsService {
   get productCategoriesGroupUrl(): string {
     return `${this.domain}/product-categories?select=productCategoryId,parentId,name&filter=parentId eq null`;
   }
+  //#endregion
 }

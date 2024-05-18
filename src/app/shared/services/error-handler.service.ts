@@ -12,7 +12,11 @@ export class ErrorHandlerService {
     private alertService: AlertService
   ) {}
 
-  handleError(statusCode: number) {
+  /**
+   * تصمیم گیری برای خطاها و اکسپشن های رخ داده و واکنش به آن
+   * @param statusCode کد خطا یا اکسپشن
+   */
+  handleError(statusCode: number): void {
     switch (statusCode) {
       case 404:
         this.router.navigate(['/not-found'], {

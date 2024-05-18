@@ -21,6 +21,9 @@ export class LoadingSpinnerComponent implements OnInit {
     this.init();
   }
 
+  /**
+   * شروع دایره چرخشی انتظار
+   */
   init(): void {
     this.loadingSpinnerService.getSpinnerObserver().subscribe((status) => {
       this.showSpinner = status === true;

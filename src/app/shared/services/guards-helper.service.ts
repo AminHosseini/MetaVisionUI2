@@ -8,6 +8,11 @@ import { AlertService } from './alert.service';
 export class GuardsHelperService {
   constructor(private alertService: AlertService) {}
 
+  /**
+   * 
+   * @param form فرم
+   * @returns اجازه دادن یا ندادن برای خارج شدن از فرمی که ذخیره نشده
+   */
   async canDeactivateAsync(form: FormGroup): Promise<boolean> {
     let allowNavigatation: boolean = true;
     if (form.touched) {

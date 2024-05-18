@@ -26,6 +26,10 @@ export class ProductCategoryService {
     private alertService: AlertService
   ) {}
 
+  /**
+   * گرفتن لیست نوع محصولات از ای پی آی
+   * @returns لیست نوع محصولات
+   */
   fetchProductCategories(): Observable<ProductCategoriesModel[]> {
     const data = this.httpClient.get<ProductCategoriesModel[]>(
       this.metavisionUrlsService.productCategoriesUrl
@@ -42,6 +46,10 @@ export class ProductCategoryService {
     return data;
   }
 
+  /**
+   * ارسال درخواست ساخت نوع محصول جدید به ای پی آی
+   * @param productCategory اطلاعات نوع محصول جدید
+   */
   createProductCategory(productCategory: ProductCategoriesModel): void {
     this.httpClient
       .post<IdRowVersionModel>(
@@ -58,10 +66,18 @@ export class ProductCategoryService {
       });
   }
 
+  /**
+   * گرفتن لیست نوع محصولات
+   * @returns لیست نوع محصولات
+   */
   getProductCategories(): ProductCategoriesModel[] {
     return this.productCategories;
   }
 
+  /**
+   * گرفتن لیست کوتاه شده نوع محصولات برای پر کردن دراپ داون از ای پی آی
+   * @returns لیست کوتاه شده نوع محصولات
+   */
   fetchProductCategoriesGroup(): Observable<ProductCategoriesGroupModel[]> {
     const data = this.httpClient.get<ProductCategoriesGroupModel[]>(
       this.metavisionUrlsService.productCategoriesGroupUrl
@@ -78,6 +94,10 @@ export class ProductCategoryService {
     return data;
   }
 
+  /**
+   * گرفتن لیست کوتاه شده نوع محصولات برای پر کردن دراپ داون
+   * @returns لیست کوتاه شده نوع محصولات
+   */
   getProductCategoriesGroup(): ProductCategoriesGroupModel[] {
     return this.productCategoriesGroup;
   }

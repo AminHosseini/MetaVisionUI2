@@ -78,6 +78,9 @@ export class CreateProductCategoryComponent
     this.fillParentIdSelect();
   }
 
+  /**
+   * شروع فرم
+   */
   private initializeForm(): void {
     this.productCategoryForm = new FormGroup({
       parentId: new FormControl<number>(0, Validators.required),
@@ -103,25 +106,40 @@ export class CreateProductCategoryComponent
     });
   }
 
+  /**
+   * پر کردن لیست و دراپ داون دسته بندی محصول اصلی
+   */
   private fillParentIdSelect(): void {
     this.selectOptions =
       this.productCategoryService.getProductCategoriesGroup();
   }
 
+  /**
+   * عملیات های انجام شده هنگام سابمیت کردن فرم
+   * @param focusElement اسکرول کردن به المنت اچ تی ام الی که بالاترین جای صفحه است
+   * @returns
+   */
   onSubmit(focusElement: HTMLElement): void {
+    // دادن پیام خطا در صورتی که لیست کلمات کلیدی خالی بود
     if (this.helperService.keywords.length === 0) {
       this.alertService.emptyKeywordsAlert();
       return;
     }
+    // دادن پیام خطا در صورتی که لیست کلمات کلیدی خالی بود
 
+    // اسکرول کردن به المنت اچ تی ام الی
     focusElement.scrollIntoView({
       behavior: 'smooth',
     });
+    // اسکرول کردن به المنت اچ تی ام الی
 
+    // ارسال درخواست به ای پی آی
     this.productCategoryService.createProductCategory(
       this.productCategoryForm.value
     );
+    // ارسال درخواست به ای پی آی
 
+    // ریست کردن فرم و خالی کردن لیست کلمات کلیدی
     this.productCategoryForm.reset();
     this.form.resetForm();
     this.helperService.keywords = [];
@@ -129,39 +147,72 @@ export class CreateProductCategoryComponent
     (this.productCategoryForm.controls['seo'] as FormGroup).controls[
       'keywords'
     ].patchValue(this.keywords);
+    // ریست کردن فرم و خالی کردن لیست کلمات کلیدی
   }
 
+  /**
+   * برگشت به صفحه لیست نوع محصولات
+   */
   returnToProductCategories(): void {
     this.router.navigate(['/product-categories'], {
       relativeTo: this.activatedRoute,
     });
   }
 
+  /**
+   * فعال یا غیر فعال کردن دکمه اضافه کردن کلمه کلیدی جدید به لیست کلمات کلیدی
+   * @returns فعال یا غیر فعال؟
+   */
   activateAddKeywordBtn(): boolean {
     return this.keywordEntered === '';
   }
 
+  /**
+   * اضافه کردن کلمه کلیدی جدید به لیست کلمات کلیدی
+   */
   addNewKeyword(): void {
     this.helperService.addNewKeyword(this.keywordEntered);
     this.keywordEntered = '';
   }
 
+  /**
+   * پاک کردن کلمه کلیدی از لیست کلمات کلیدی
+   * @param index شماره محل قرارگیری کلمه کلیدی داخل لیست کلمات کلیدی
+   */
   deleteKeyword(index: number): void {
     this.helperService.deleteKeyword(index);
   }
 
+  /**
+   * پر کردن توضیحات متا بر اساس اطلاعات وارد شده داخل توضیحات
+   * @param e ایونت فوکس روی فیلد توضیحات
+   */
   descriptionOut(e: FocusEvent): void {
     this.helperService.autoFillMetaDescription(this.productCategoryForm);
   }
 
+    /**
+   * پر کردن اسلاگ بر اساس اطلاعات وارد شده داخل نام
+   * @param e ایونت فوکس روی فیلد نام
+   */
   nameOut(e: FocusEvent): void {
     this.helperService.autoFillSlug(this.productCategoryForm);
   }
 
+  /**
+   * گرفتن لیست کلمات کلیدی
+   * @returns لیست کلمات کلیدی
+   */
   getKeywords(): string[] {
     return this.helperService.getKeywords();
   }
 
+  /**
+   * تایید معتبر بودن یا نبودن فرم
+   * @param controlName نام کنترل فرم
+   * @param groupName نام گروه فرم
+   * @returns فرم معتبر هست یا خیر؟
+   */
   ControlNotValid(
     controlName: string,
     groupName?: string
@@ -173,6 +224,12 @@ export class CreateProductCategoryComponent
     );
   }
 
+  /**
+   * گرفتن تمامی ارور های کنترل فرم
+   * @param controlName نام کنترل فرم
+   * @param groupName نام گروه فرم
+   * @returns ارور های کنترل
+   */
   getControlErrors(
     controlName: string,
     groupName?: string

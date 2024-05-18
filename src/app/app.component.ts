@@ -27,6 +27,7 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    //#region نمایش دایره چرخشی انتظار در عوض کردن روت های نویگیشن
     this.router.events.subscribe({
       next: (routerEvent: Event) => {
         if (routerEvent instanceof NavigationStart) {
@@ -41,5 +42,6 @@ export class AppComponent implements OnInit {
         }
       },
     });
+    //#endregion
   }
 }

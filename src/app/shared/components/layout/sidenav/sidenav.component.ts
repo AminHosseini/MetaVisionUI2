@@ -12,6 +12,7 @@ import { MenuItemModel } from './menu-item.model';
   styleUrl: './sidenav.component.css',
 })
 export class SidenavComponent {
+  // دکمه های منوی کناری
   menuItems = signal<MenuItemModel[]>([
     {
       icon: 'dashboard',
@@ -24,11 +25,15 @@ export class SidenavComponent {
       route: 'product-categories',
     },
   ]);
+  // دکمه های منوی کناری
 
+  // تغییر اندازه منوی کناری
   sidenavCollapsed = signal<boolean>(false);
   @Input() set collapsed(val: boolean) {
     this.sidenavCollapsed.set(val);
   }
+  // تغییر اندازه منوی کناری
 
+  // تغییر اندازه ی عکس پروفایل داخل منوی کناری
   setProfilePicSize = computed(() => (this.sidenavCollapsed() ? '32' : '100'));
 }

@@ -7,6 +7,10 @@ import Swal, { SweetAlertResult } from 'sweetalert2';
 export class AlertService {
   constructor() {}
 
+  /**
+   * !نمایش ارور کلمات کلیدی نمیتواند خالی باشد
+   * @returns آلرت ارور
+   */
   emptyKeywordsAlert(): Promise<SweetAlertResult<any>> {
     return Swal.fire({
       showConfirmButton: false,
@@ -16,6 +20,10 @@ export class AlertService {
     });
   }
 
+  /**
+   * .نمایش پیام عملیات با موفقیت انجام شد
+   * @returns پیام موفقیت
+   */
   successAlert(): Promise<SweetAlertResult<any>> {
     return Swal.fire({
       icon: 'success',
@@ -25,6 +33,10 @@ export class AlertService {
     });
   }
 
+  /**
+   * .نمایش پیام خطا در دریافت اطلاعات
+   * @returns پیام خطا
+   */
   errorAlert(): Promise<SweetAlertResult<any>> {
     return Swal.fire({
       title: 'خطا در دریافت اطلاعات',
@@ -35,16 +47,21 @@ export class AlertService {
     });
   }
 
+  /**
+   * نمایش سوال آیا خارج میشوید؟
+   * @returns سوال برای تایید یا رد کردن
+   */
   async exitAlertAsync(): Promise<SweetAlertResult<any>> {
     return await Swal.fire({
       title: 'آیا خارج میشوید؟',
       text: 'در صورت خارج شدن اطلاعات وارد شده در این فرم از بین میروند.',
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#9966CC',
+      cancelButtonText: 'خیر',
       cancelButtonColor: '#c9c5b9',
       confirmButtonText: 'بله',
-      cancelButtonText: 'خیر',
+      confirmButtonColor: '#9966CC',
+      reverseButtons: true
     });
   }
 }

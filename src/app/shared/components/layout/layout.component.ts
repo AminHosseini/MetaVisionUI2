@@ -23,5 +23,6 @@ import { SidenavComponent } from './sidenav/sidenav.component';
 export class LayoutComponent {
   collapsed = signal<boolean>(false);
 
+  // تغییر اندازه منوی کناری
   sidenavWidth = computed(() => (this.collapsed() ? '65px' : '250px'));
 }
