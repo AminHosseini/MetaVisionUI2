@@ -1,5 +1,5 @@
 import { CanDeactivateFn } from '@angular/router';
-import { ICanComponentDeactivate } from '../../shared/interfaces/ICanComponentDeactivate';
+import { ICanComponentDeactivate } from '../../../shared/interfaces/ICanComponentDeactivate';
 
 export const createProductCategoryCandeactivateGuard: CanDeactivateFn<
   ICanComponentDeactivate

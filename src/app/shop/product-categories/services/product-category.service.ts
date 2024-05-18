@@ -4,10 +4,10 @@ import { Observable } from 'rxjs';
 import { Subject } from 'rxjs/internal/Subject';
 import { ProductCategoriesModel } from '../models/product-categories.model';
 import { ProductCategoriesGroupModel } from '../models/product-categories-group.model';
-import { IdRowVersionModel } from '../../shared/models/id-rowversion.model';
-import { MetavisionUrlsService } from '../../shared/services/metavision-urls.service';
-import { ErrorHandlerService } from '../../shared/services/error-handler.service';
-import { AlertService } from '../../shared/services/alert.service';
+import { IdRowVersionModel } from '../../../shared/models/id-rowversion.model';
+import { MetavisionUrlsService } from '../../../shared/services/metavision-urls.service';
+import { ErrorHandlerService } from '../../../shared/services/error-handler.service';
+import { AlertService } from '../../../shared/services/alert.service';
 
 @Injectable({
   providedIn: 'root',

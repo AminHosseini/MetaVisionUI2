@@ -16,19 +16,19 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TextFieldModule } from '@angular/cdk/text-field';
-import { HelperService } from '../../shared/services/helper.service';
+import { HelperService } from '../../../shared/services/helper.service';
 import { ProductCategoryService } from '../services/product-category.service';
 import { ProductCategoriesGroupModel } from '../models/product-categories-group.model';
-import { ICanComponentDeactivate } from '../../shared/interfaces/ICanComponentDeactivate';
-import { GuardsHelperService } from '../../shared/services/guards-helper.service';
-import { AlertService } from '../../shared/services/alert.service';
-import { ButtonHelperDirective } from '../../shared/directives/button-helper.directive';
-import { AddIconDirective } from '../../shared/directives/add-icon.directive';
-import { FontHelperDirective } from '../../shared/directives/font-helper.directive';
-import { KeywordElementDirective } from '../../shared/directives/keyword-element.directive';
-import { FormFieldDirective } from '../../shared/directives/form-field.directive';
-import { DeleteKeywordBtnDirective } from '../../shared/directives/delete-keyword-btn.directive';
-import { AddKeywordsBtnDirective } from '../../shared/directives/add-keywords-btn.directive';
+import { ICanComponentDeactivate } from '../../../shared/interfaces/ICanComponentDeactivate';
+import { GuardsHelperService } from '../../../shared/services/guards-helper.service';
+import { AlertService } from '../../../shared/services/alert.service';
+import { ButtonHelperDirective } from '../../../shared/directives/button-helper.directive';
+import { AddIconDirective } from '../../../shared/directives/add-icon.directive';
+import { FontHelperDirective } from '../../../shared/directives/font-helper.directive';
+import { KeywordElementDirective } from '../../../shared/directives/keyword-element.directive';
+import { FormFieldDirective } from '../../../shared/directives/form-field.directive';
+import { DeleteKeywordBtnDirective } from '../../../shared/directives/delete-keyword-btn.directive';
+import { AddKeywordsBtnDirective } from '../../../shared/directives/add-keywords-btn.directive';
 
 @Component({
   selector: 'shop-create-product-category',
