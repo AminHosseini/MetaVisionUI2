@@ -1,10 +1,20 @@
 import { Routes } from '@angular/router';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { NotFoundComponent } from './shared/components/not-found/not-found.component';
 
 export const routes: Routes = [
-  { path: 'dashboard', component: DashboardComponent },
+  {
+    path: 'dashboard',
+    loadComponent: () =>
+      import('./dashboard/dashboard.component').then(
+        (c) => c.DashboardComponent
+      ),
+  },
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-  { path: 'not-found', component: NotFoundComponent },
+  {
+    path: 'not-found',
+    loadComponent: () =>
+      import('./shared/components/not-found/not-found.component').then(
+        (c) => c.NotFoundComponent
+      ),
+  },
   // { path: '**', redirectTo: 'not-found' },
 ];
