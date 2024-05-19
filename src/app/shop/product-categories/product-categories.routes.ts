@@ -3,6 +3,9 @@ import { createProductCategoryCandeactivateGuard } from './guards/create-product
 import { newProductCategoryResolver } from './resolvers/new-product-category.resolver';
 import { productCategoryResolver } from './resolvers/product-category.resolver';
 
+/**
+ * روت های دسته بندی محصولات
+ */
 export const productCategoriesRoutes: Routes = [
   {
     path: 'product-categories',

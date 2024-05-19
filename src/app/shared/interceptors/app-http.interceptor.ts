@@ -23,6 +23,12 @@ export class AppHttpInterceptor implements HttpInterceptor {
     return this.handler(next, req);
   }
 
+  /**
+   * Identifies and handles a given HTTP request.
+   * @param next The next interceptor in the chain, or the backend if no interceptors remain in the chain.
+   * @param req The outgoing request object to handle.
+   * @returns An observable of the event stream.
+   */
   handler(next: HttpHandler, req: HttpRequest<any>) {
     return next.handle(req).pipe(
       tap({

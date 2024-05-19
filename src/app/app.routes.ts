@@ -1,5 +1,8 @@
 import { Routes } from '@angular/router';
 
+/**
+ * روت های کلی برنامه
+ */
 export const routes: Routes = [
   {
     path: 'dashboard',

@@ -1,3 +1,6 @@
+/**
+ * مدل دسته بندی محصول
+ */
 export class ProductCategoriesModel {
   constructor(
     public productCategoryId: number,
