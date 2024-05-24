@@ -10,7 +10,7 @@ export const productCategoriesRoutes: Routes = [
   {
     path: 'product-categories',
     loadComponent: () =>
-      import('./get-product-categories/get-product-categories.component').then(
+      import('./components/get-product-categories/get-product-categories.component').then(
         (c) => c.GetProductCategoriesComponent
       ),
     resolve: [productCategoryResolver],
@@ -20,7 +20,7 @@ export const productCategoriesRoutes: Routes = [
     path: 'product-categories/new',
     loadComponent: () =>
       import(
-        './create-product-category/create-product-category.component'
+        './components/create-product-category/create-product-category.component'
       ).then((c) => c.CreateProductCategoryComponent),
     resolve: [newProductCategoryResolver],
     canDeactivate: [createProductCategoryCandeactivateGuard],
