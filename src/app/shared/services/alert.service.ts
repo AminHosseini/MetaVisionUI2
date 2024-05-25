@@ -11,12 +11,12 @@ export class AlertService {
    * !نمایش ارور کلمات کلیدی نمیتواند خالی باشد
    * @returns آلرت ارور
    */
-  emptyKeywordsAlert(): Promise<SweetAlertResult<any>> {
+  keywordsAlert(message: string): Promise<SweetAlertResult<any>> {
     return Swal.fire({
       showConfirmButton: false,
-      timer: 2000,
+      timer: 4000,
       icon: 'error',
-      text: 'کلمات کلیدی نمیتواند خالی باشد!',
+      text: message,
     });
   }
 
@@ -48,6 +48,23 @@ export class AlertService {
   }
 
   /**
+   * .نمایش پیام خطا برای Validation ارورها
+   * @returns پیام خطا
+   */
+  serverValidationErrorAlert(): Promise<SweetAlertResult<any>> {
+    // let message: string = '';
+    // messages.forEach((value) => (message += `${value}.\n`));
+    // return Swal.fire(message);
+
+    return Swal.fire({
+      showConfirmButton: false,
+      timer: 4000,
+      icon: 'error',
+      text: 'اطلاعات به درستی وارد نشده! لطفا مجدد اطلاعات وارد شده را بررسی کنید.',
+    });
+  }
+
+  /**
    * نمایش سوال آیا خارج میشوید؟
    * @returns سوال برای تایید یا رد کردن
    */
@@ -61,7 +78,7 @@ export class AlertService {
       cancelButtonColor: '#c9c5b9',
       confirmButtonText: 'بله',
       confirmButtonColor: '#9966CC',
-      reverseButtons: true
+      reverseButtons: true,
     });
   }
 }

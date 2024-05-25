@@ -122,7 +122,7 @@ export class CreateProductCategoryComponent
   onSubmit(focusElement: HTMLElement): void {
     // دادن پیام خطا در صورتی که لیست کلمات کلیدی خالی بود
     if (this.helperService.keywords.length === 0) {
-      this.alertService.emptyKeywordsAlert();
+      this.alertService.keywordsAlert('کلمات کلیدی نمیتواند خالی باشد!');
       return;
     }
     // دادن پیام خطا در صورتی که لیست کلمات کلیدی خالی بود
@@ -171,6 +171,22 @@ export class CreateProductCategoryComponent
    * اضافه کردن کلمه کلیدی جدید به لیست کلمات کلیدی
    */
   addNewKeyword(): void {
+    if (!/\S/.test(this.keywordEntered)) {
+      this.alertService.keywordsAlert('کلمات کلیدی نمیتواند خالی باشد!');
+      return;
+    }
+    if (this.keywordEntered.length > 25) {
+      this.alertService.keywordsAlert(
+        'فقط مجاز به وارد کردن کلمه با ۲۵ کاراکتر می باشید!'
+      );
+      return;
+    }
+    if (this.helperService.keywords.length >= 10) {
+      this.alertService.keywordsAlert(
+        'فقط مجاز به وارد کردن ۱۰ کلمه کلیدی می باشید!'
+      );
+      return;
+    }
     this.helperService.addNewKeyword(this.keywordEntered);
     this.keywordEntered = '';
   }
@@ -191,7 +207,7 @@ export class CreateProductCategoryComponent
     this.helperService.autoFillMetaDescription(this.productCategoryForm);
   }
 
-    /**
+  /**
    * پر کردن اسلاگ بر اساس اطلاعات وارد شده داخل نام
    * @param e ایونت فوکس روی فیلد نام
    */

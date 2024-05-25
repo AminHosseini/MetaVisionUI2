@@ -61,7 +61,7 @@ export class ProductCategoryService {
           this.alertService.successAlert();
         },
         error: (err) => {
-          this.errorHandlerService.handleError(err.status);
+          this.errorHandlerService.handleError(err);
         },
       });
   }
