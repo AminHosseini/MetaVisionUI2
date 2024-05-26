@@ -8,10 +8,10 @@ export class AlertService {
   constructor() {}
 
   /**
-   * !نمایش ارور کلمات کلیدی نمیتواند خالی باشد
+   * نمایش ارور با پیام داده شده
    * @returns آلرت ارور
    */
-  keywordsAlert(message: string): Promise<SweetAlertResult<any>> {
+  customMessageAlert(message: string): Promise<SweetAlertResult<any>> {
     return Swal.fire({
       showConfirmButton: false,
       timer: 4000,

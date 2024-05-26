@@ -9,13 +9,14 @@ export class GuardsHelperService {
   constructor(private alertService: AlertService) {}
 
   /**
-   * 
+   * اجازه دادن و یا ندادن برای خروج از فرم ذخیره نشده دارای کلمات کلیدی
    * @param form فرم
-   * @returns اجازه دادن یا ندادن برای خارج شدن از فرمی که ذخیره نشده
+   * @param keywords لیست کلمات کلیدی
+   * @returns آیا مجاز به تغییر مسیر است؟
    */
-  async canDeactivateAsync(form: FormGroup): Promise<boolean> {
+  async canDeactivateWithKeywordsAsync(form: FormGroup, keywords: string[]): Promise<boolean> {
     let allowNavigatation: boolean = true;
-    if (form.touched) {
+    if (form.touched || keywords.length !== 0) {
       const result = await this.alertService.exitAlertAsync();
 
       if (result.isConfirmed) {

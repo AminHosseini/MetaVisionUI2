@@ -53,7 +53,7 @@ export class ProductCategoryService {
   createProductCategory(productCategory: ProductCategoriesModel): void {
     this.httpClient
       .post<IdRowVersionModel>(
-        this.metavisionUrlsService.createProductCategoryUrl,
+        this.metavisionUrlsService.productCategoriesUrl,
         productCategory
       )
       .subscribe({

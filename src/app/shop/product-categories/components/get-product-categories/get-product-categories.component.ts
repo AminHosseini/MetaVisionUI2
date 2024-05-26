@@ -10,7 +10,7 @@ import {
 } from './get-product-categories-datasource';
 
 @Component({
-  selector: 'app-get-product-categories',
+  selector: 'metavision-get-product-categories',
   templateUrl: './get-product-categories.component.html',
   styleUrl: './get-product-categories.component.css',
   standalone: true,

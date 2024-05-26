@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -21,7 +21,6 @@ import { ProductCategoryService } from '../../services/product-category.service'
 import { ProductCategoriesGroupModel } from '../../models/product-categories-group.model';
 import { ICanComponentDeactivate } from '../../../../shared/interfaces/ICanComponentDeactivate';
 import { GuardsHelperService } from '../../../../shared/services/guards-helper.service';
-import { AlertService } from '../../../../shared/services/alert.service';
 import { ButtonHelperDirective } from '../../../../shared/directives/button-helper.directive';
 import { AddIconDirective } from '../../../../shared/directives/add-icon.directive';
 import { FontHelperDirective } from '../../../../shared/directives/font-helper.directive';
@@ -29,6 +28,8 @@ import { KeywordElementDirective } from '../../../../shared/directives/keyword-e
 import { FormFieldDirective } from '../../../../shared/directives/form-field.directive';
 import { DeleteKeywordBtnDirective } from '../../../../shared/directives/delete-keyword-btn.directive';
 import { AddKeywordsBtnDirective } from '../../../../shared/directives/add-keywords-btn.directive';
+import { CustomValidationMessageDirective } from '../../../../shared/directives/custom-validation-message.directive';
+import { CustomValidationMessageService } from '../../../../shared/services/custom-validation-message.service';
 
 @Component({
   selector: 'shop-create-product-category',
@@ -51,17 +52,19 @@ import { AddKeywordsBtnDirective } from '../../../../shared/directives/add-keywo
     FormFieldDirective,
     DeleteKeywordBtnDirective,
     AddKeywordsBtnDirective,
+    CustomValidationMessageDirective,
   ],
   templateUrl: './create-product-category.component.html',
   styleUrl: './create-product-category.component.css',
 })
 export class CreateProductCategoryComponent
-  implements OnInit, ICanComponentDeactivate
+  implements OnInit, OnDestroy, ICanComponentDeactivate
 {
   productCategoryForm!: FormGroup;
   @ViewChild('form') form: any;
   keywordEntered: string = '';
-  keywords: string[] = this.getKeywords();
+  keywords: string[] = [];
+  keywordsValidationError: string = '';
   selectOptions: ProductCategoriesGroupModel[] = [];
 
   constructor(
@@ -70,12 +73,18 @@ export class CreateProductCategoryComponent
     private helperService: HelperService,
     private productCategoryService: ProductCategoryService,
     private guardsHelperService: GuardsHelperService,
-    private alertService: AlertService
+    public customValidationMessageService: CustomValidationMessageService
   ) {}
 
   ngOnInit(): void {
     this.initializeForm();
     this.fillParentIdSelect();
+    this.keywords = this.getKeywords();
+  }
+
+  ngOnDestroy(): void {
+    this.helperService.keywords = [];
+    this.keywordsValidationError = '';
   }
 
   /**
@@ -122,7 +131,8 @@ export class CreateProductCategoryComponent
   onSubmit(focusElement: HTMLElement): void {
     // دادن پیام خطا در صورتی که لیست کلمات کلیدی خالی بود
     if (this.helperService.keywords.length === 0) {
-      this.alertService.keywordsAlert('کلمات کلیدی نمیتواند خالی باشد!');
+      this.keywordsValidationError =
+        this.customValidationMessageService.keywordsCannotBeEmpty;
       return;
     }
     // دادن پیام خطا در صورتی که لیست کلمات کلیدی خالی بود
@@ -144,6 +154,7 @@ export class CreateProductCategoryComponent
     this.form.resetForm();
     this.helperService.keywords = [];
     this.keywords = this.helperService.keywords;
+    this.keywordsValidationError = '';
     (this.productCategoryForm.controls['seo'] as FormGroup).controls[
       'keywords'
     ].patchValue(this.keywords);
@@ -172,21 +183,22 @@ export class CreateProductCategoryComponent
    */
   addNewKeyword(): void {
     if (!/\S/.test(this.keywordEntered)) {
-      this.alertService.keywordsAlert('کلمات کلیدی نمیتواند خالی باشد!');
+      this.keywordsValidationError =
+        this.customValidationMessageService.keywordsCannotBeEmpty;
       return;
     }
-    if (this.keywordEntered.length > 25) {
-      this.alertService.keywordsAlert(
-        'فقط مجاز به وارد کردن کلمه با ۲۵ کاراکتر می باشید!'
-      );
+    if (this.keywordEntered.length > 24) {
+      this.keywordsValidationError =
+        this.customValidationMessageService.maximumKeywordCharacters;
       return;
     }
-    if (this.helperService.keywords.length >= 10) {
-      this.alertService.keywordsAlert(
-        'فقط مجاز به وارد کردن ۱۰ کلمه کلیدی می باشید!'
-      );
+    if (this.helperService.keywords.length >= 8) {
+      this.keywordsValidationError =
+        this.customValidationMessageService.maximumKeywordsArrayCount;
       return;
     }
+
+    this.keywordsValidationError = '';
     this.helperService.addNewKeyword(this.keywordEntered);
     this.keywordEntered = '';
   }
@@ -258,8 +270,9 @@ export class CreateProductCategoryComponent
   }
 
   async canDeactivate(): Promise<boolean> {
-    return await this.guardsHelperService.canDeactivateAsync(
-      this.productCategoryForm
+    return await this.guardsHelperService.canDeactivateWithKeywordsAsync(
+      this.productCategoryForm,
+      this.keywords
     );
   }
 }

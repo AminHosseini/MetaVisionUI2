@@ -8,13 +8,8 @@ export class MetavisionUrlsService {
 
   //#region productCategories
 
-  /** آدرس ای پی آی گرفتن تمامی دسته بندی های محصولات */
+  /** آدرس ای پی آی گرفتن تمامی دسته بندی های محصولات و ساخت دسته بندی محصول جدید*/
   get productCategoriesUrl(): string {
-    return `${this.domain}/product-categories`;
-  }
-
-  /** آدرس ای پی آی ساخت دسته بندی محصول جدید */
-  get createProductCategoryUrl(): string {
     return `${this.domain}/product-categories`;
   }
 

@@ -13,6 +13,6 @@ export class FontHelperDirective implements OnInit {
       'font-family',
       'vazir'
     );
-    this.renderer2.setStyle(this.elementRef.nativeElement, 'color', '#4a4f4b');
+    // this.renderer2.setStyle(this.elementRef.nativeElement, 'color', '#4a4f4b');
   }
 }
