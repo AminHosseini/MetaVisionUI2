@@ -1,11 +1,14 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertService } from './alert.service';
+import { Subject } from 'rxjs/internal/Subject';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ErrorHandlerService {
+  serverValidationErrors = new Subject();
+
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -76,7 +79,8 @@ export class ErrorHandlerService {
 
         //   this.alertService.errorAlertWithMessage(massages);
         // }
-        this.alertService.serverValidationErrorAlert();
+        // this.alertService.serverValidationErrorAlert();
+        this.serverValidationErrors.next(err.error.errors);
         break;
       default:
         this.router.navigate(['/dashboard'], {

@@ -30,6 +30,7 @@ import { DeleteKeywordBtnDirective } from '../../../../shared/directives/delete-
 import { AddKeywordsBtnDirective } from '../../../../shared/directives/add-keywords-btn.directive';
 import { CustomValidationMessageDirective } from '../../../../shared/directives/custom-validation-message.directive';
 import { CustomValidationMessageService } from '../../../../shared/services/custom-validation-message.service';
+import { ErrorHandlerService } from '../../../../shared/services/error-handler.service';
 
 @Component({
   selector: 'shop-create-product-category',
@@ -63,9 +64,10 @@ export class CreateProductCategoryComponent
   productCategoryForm!: FormGroup;
   @ViewChild('form') form: any;
   keywordEntered: string = '';
-  keywords: string[] = [];
+  keywords: string[] = this.getKeywords();
   keywordsValidationError: string = '';
   selectOptions: ProductCategoriesGroupModel[] = [];
+  serverValidationErrors: any;
 
   constructor(
     private router: Router,
@@ -73,13 +75,13 @@ export class CreateProductCategoryComponent
     private helperService: HelperService,
     private productCategoryService: ProductCategoryService,
     private guardsHelperService: GuardsHelperService,
+    private errorHandlerService: ErrorHandlerService,
     public customValidationMessageService: CustomValidationMessageService
   ) {}
 
   ngOnInit(): void {
     this.initializeForm();
     this.fillParentIdSelect();
-    this.keywords = this.getKeywords();
   }
 
   ngOnDestroy(): void {
@@ -91,25 +93,36 @@ export class CreateProductCategoryComponent
    * شروع فرم
    */
   private initializeForm(): void {
+    // this.productCategoryForm = new FormGroup({
+    //   parentId: new FormControl<number>(0, Validators.required),
+    //   name: new FormControl<string>('', [
+    //     Validators.required,
+    //     Validators.maxLength(50),
+    //   ]),
+    //   description: new FormControl<string>('', [
+    //     Validators.required,
+    //     Validators.maxLength(1000),
+    //   ]),
+    //   seo: new FormGroup({
+    //     metaDescription: new FormControl<string>('', [
+    //       Validators.required,
+    //       Validators.maxLength(200),
+    //     ]),
+    //     slug: new FormControl<string>('', [
+    //       Validators.required,
+    //       Validators.maxLength(200),
+    //     ]),
+    //     keywords: new FormControl<string[]>(this.keywords),
+    //   }),
+    // });
+
     this.productCategoryForm = new FormGroup({
-      parentId: new FormControl<number>(0, Validators.required),
-      name: new FormControl<string>('', [
-        Validators.required,
-        Validators.maxLength(50),
-      ]),
-      description: new FormControl<string>('', [
-        Validators.required,
-        Validators.maxLength(1000),
-      ]),
+      parentId: new FormControl<number>(0),
+      name: new FormControl<string>(''),
+      description: new FormControl<string>(''),
       seo: new FormGroup({
-        metaDescription: new FormControl<string>('', [
-          Validators.required,
-          Validators.maxLength(200),
-        ]),
-        slug: new FormControl<string>('', [
-          Validators.required,
-          Validators.maxLength(200),
-        ]),
+        metaDescription: new FormControl<string>(''),
+        slug: new FormControl<string>(''),
         keywords: new FormControl<string[]>(this.keywords),
       }),
     });
@@ -130,11 +143,11 @@ export class CreateProductCategoryComponent
    */
   onSubmit(focusElement: HTMLElement): void {
     // دادن پیام خطا در صورتی که لیست کلمات کلیدی خالی بود
-    if (this.helperService.keywords.length === 0) {
-      this.keywordsValidationError =
-        this.customValidationMessageService.keywordsCannotBeEmpty;
-      return;
-    }
+    // if (this.helperService.keywords.length === 0) {
+    //   this.keywordsValidationError =
+    //     this.customValidationMessageService.keywordsCannotBeEmpty;
+    //   return;
+    // }
     // دادن پیام خطا در صورتی که لیست کلمات کلیدی خالی بود
 
     // اسکرول کردن به المنت اچ تی ام الی
@@ -148,6 +161,12 @@ export class CreateProductCategoryComponent
       this.productCategoryForm.value
     );
     // ارسال درخواست به ای پی آی
+
+    this.errorHandlerService.serverValidationErrors.subscribe({
+      next: (errors: any) => {
+        console.log();
+      },
+    });
 
     // ریست کردن فرم و خالی کردن لیست کلمات کلیدی
     this.productCategoryForm.reset();
@@ -182,21 +201,21 @@ export class CreateProductCategoryComponent
    * اضافه کردن کلمه کلیدی جدید به لیست کلمات کلیدی
    */
   addNewKeyword(): void {
-    if (!/\S/.test(this.keywordEntered)) {
-      this.keywordsValidationError =
-        this.customValidationMessageService.keywordsCannotBeEmpty;
-      return;
-    }
-    if (this.keywordEntered.length > 24) {
-      this.keywordsValidationError =
-        this.customValidationMessageService.maximumKeywordCharacters;
-      return;
-    }
-    if (this.helperService.keywords.length >= 8) {
-      this.keywordsValidationError =
-        this.customValidationMessageService.maximumKeywordsArrayCount;
-      return;
-    }
+    // if (!/\S/.test(this.keywordEntered)) {
+    //   this.keywordsValidationError =
+    //     this.customValidationMessageService.keywordsCannotBeEmpty;
+    //   return;
+    // }
+    // if (this.keywordEntered.length > 24) {
+    //   this.keywordsValidationError =
+    //     this.customValidationMessageService.maximumKeywordCharacters;
+    //   return;
+    // }
+    // if (this.helperService.keywords.length >= 8) {
+    //   this.keywordsValidationError =
+    //     this.customValidationMessageService.maximumKeywordsArrayCount;
+    //   return;
+    // }
 
     this.keywordsValidationError = '';
     this.helperService.addNewKeyword(this.keywordEntered);
