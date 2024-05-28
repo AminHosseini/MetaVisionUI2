@@ -31,6 +31,8 @@ import { AddKeywordsBtnDirective } from '../../../../shared/directives/add-keywo
 import { CustomValidationMessageDirective } from '../../../../shared/directives/custom-validation-message.directive';
 import { CustomValidationMessageService } from '../../../../shared/services/custom-validation-message.service';
 import { ErrorHandlerService } from '../../../../shared/services/error-handler.service';
+import { ServerValidationAlertComponent } from '../../../../shared/components/server-validation-alert/server-validation-alert.component';
+import { PlaceholderDirective } from '../../../../shared/directives/placeholder.directive';
 
 @Component({
   selector: 'shop-create-product-category',
@@ -54,6 +56,8 @@ import { ErrorHandlerService } from '../../../../shared/services/error-handler.s
     DeleteKeywordBtnDirective,
     AddKeywordsBtnDirective,
     CustomValidationMessageDirective,
+    PlaceholderDirective,
+    ServerValidationAlertComponent,
   ],
   templateUrl: './create-product-category.component.html',
   styleUrl: './create-product-category.component.css',
@@ -67,7 +71,8 @@ export class CreateProductCategoryComponent
   keywords: string[] = this.getKeywords();
   keywordsValidationError: string = '';
   selectOptions: ProductCategoriesGroupModel[] = [];
-  serverValidationErrors: any;
+  @ViewChild(PlaceholderDirective, { static: false })
+  serverValidationErrors!: PlaceholderDirective;
 
   constructor(
     private router: Router,
@@ -87,42 +92,32 @@ export class CreateProductCategoryComponent
   ngOnDestroy(): void {
     this.helperService.keywords = [];
     this.keywordsValidationError = '';
+    this.serverValidationErrors.viewContainerRef.clear();
   }
 
   /**
    * شروع فرم
    */
   private initializeForm(): void {
-    // this.productCategoryForm = new FormGroup({
-    //   parentId: new FormControl<number>(0, Validators.required),
-    //   name: new FormControl<string>('', [
-    //     Validators.required,
-    //     Validators.maxLength(50),
-    //   ]),
-    //   description: new FormControl<string>('', [
-    //     Validators.required,
-    //     Validators.maxLength(1000),
-    //   ]),
-    //   seo: new FormGroup({
-    //     metaDescription: new FormControl<string>('', [
-    //       Validators.required,
-    //       Validators.maxLength(200),
-    //     ]),
-    //     slug: new FormControl<string>('', [
-    //       Validators.required,
-    //       Validators.maxLength(200),
-    //     ]),
-    //     keywords: new FormControl<string[]>(this.keywords),
-    //   }),
-    // });
-
     this.productCategoryForm = new FormGroup({
-      parentId: new FormControl<number>(0),
-      name: new FormControl<string>(''),
-      description: new FormControl<string>(''),
+      parentId: new FormControl<number>(0, Validators.required),
+      name: new FormControl<string>('', [
+        Validators.required,
+        Validators.maxLength(50),
+      ]),
+      description: new FormControl<string>('', [
+        Validators.required,
+        Validators.maxLength(1000),
+      ]),
       seo: new FormGroup({
-        metaDescription: new FormControl<string>(''),
-        slug: new FormControl<string>(''),
+        metaDescription: new FormControl<string>('', [
+          Validators.required,
+          Validators.maxLength(200),
+        ]),
+        slug: new FormControl<string>('', [
+          Validators.required,
+          Validators.maxLength(200),
+        ]),
         keywords: new FormControl<string[]>(this.keywords),
       }),
     });
@@ -143,11 +138,11 @@ export class CreateProductCategoryComponent
    */
   onSubmit(focusElement: HTMLElement): void {
     // دادن پیام خطا در صورتی که لیست کلمات کلیدی خالی بود
-    // if (this.helperService.keywords.length === 0) {
-    //   this.keywordsValidationError =
-    //     this.customValidationMessageService.keywordsCannotBeEmpty;
-    //   return;
-    // }
+    if (this.helperService.keywords.length === 0) {
+      this.keywordsValidationError =
+        this.customValidationMessageService.keywordsCannotBeEmpty;
+      return;
+    }
     // دادن پیام خطا در صورتی که لیست کلمات کلیدی خالی بود
 
     // اسکرول کردن به المنت اچ تی ام الی
@@ -162,22 +157,25 @@ export class CreateProductCategoryComponent
     );
     // ارسال درخواست به ای پی آی
 
-    this.errorHandlerService.serverValidationErrors.subscribe({
-      next: (errors: any) => {
-        console.log();
-      },
-    });
-
     // ریست کردن فرم و خالی کردن لیست کلمات کلیدی
     this.productCategoryForm.reset();
     this.form.resetForm();
     this.helperService.keywords = [];
     this.keywords = this.helperService.keywords;
     this.keywordsValidationError = '';
+    this.serverValidationErrors.viewContainerRef.clear();
     (this.productCategoryForm.controls['seo'] as FormGroup).controls[
       'keywords'
     ].patchValue(this.keywords);
     // ریست کردن فرم و خالی کردن لیست کلمات کلیدی
+
+    // در صورت بروز ارور ولیدیشن سمت سرور آن را نمایش میدهد
+    this.errorHandlerService.serverValidationErrors.subscribe({
+      next: (errors: any) => {
+        this.showServerValidationErrors(errors);
+      },
+    });
+    // در صورت بروز ارور ولیدیشن سمت سرور آن را نمایش میدهد
   }
 
   /**
@@ -201,21 +199,21 @@ export class CreateProductCategoryComponent
    * اضافه کردن کلمه کلیدی جدید به لیست کلمات کلیدی
    */
   addNewKeyword(): void {
-    // if (!/\S/.test(this.keywordEntered)) {
-    //   this.keywordsValidationError =
-    //     this.customValidationMessageService.keywordsCannotBeEmpty;
-    //   return;
-    // }
-    // if (this.keywordEntered.length > 24) {
-    //   this.keywordsValidationError =
-    //     this.customValidationMessageService.maximumKeywordCharacters;
-    //   return;
-    // }
-    // if (this.helperService.keywords.length >= 8) {
-    //   this.keywordsValidationError =
-    //     this.customValidationMessageService.maximumKeywordsArrayCount;
-    //   return;
-    // }
+    if (!/\S/.test(this.keywordEntered)) {
+      this.keywordsValidationError =
+        this.customValidationMessageService.keywordsCannotBeEmpty;
+      return;
+    }
+    if (this.keywordEntered.length > 24) {
+      this.keywordsValidationError =
+        this.customValidationMessageService.maximumKeywordCharacters;
+      return;
+    }
+    if (this.helperService.keywords.length >= 8) {
+      this.keywordsValidationError =
+        this.customValidationMessageService.maximumKeywordsArrayCount;
+      return;
+    }
 
     this.keywordsValidationError = '';
     this.helperService.addNewKeyword(this.keywordEntered);
@@ -293,5 +291,18 @@ export class CreateProductCategoryComponent
       this.productCategoryForm,
       this.keywords
     );
+  }
+
+  /**
+   * نمایش ارور های ولیدیشن در صورت وجود
+   * @param messages ارور ها
+   */
+  private showServerValidationErrors(messages: string[]): void {
+    const hostViewContainerRef = this.serverValidationErrors.viewContainerRef;
+    hostViewContainerRef.clear();
+    const componentRef = hostViewContainerRef.createComponent(
+      ServerValidationAlertComponent
+    );
+    componentRef.instance.errors = messages;
   }
 }

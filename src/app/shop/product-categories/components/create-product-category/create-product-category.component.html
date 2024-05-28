@@ -10,6 +10,7 @@
       <mat-card-title>دسته بندی محصول جدید</mat-card-title>
     </mat-card-header>
     <br /><br /><br />
+    <ng-template metavisionPlaceholder></ng-template>
     <mat-card-content>
       <div class="row">
         <div class="col-md-6">
@@ -185,7 +186,9 @@
       }
       <br />
       @if (keywordsValidationError) {
-      <span metavisionCustomValidationMessage>{{ keywordsValidationError }}</span>
+      <span metavisionCustomValidationMessage>{{
+        keywordsValidationError
+      }}</span>
       <br />
       }
       <br /><br /><br />
