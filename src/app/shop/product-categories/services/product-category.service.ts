@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Subject } from 'rxjs/internal/Subject';
@@ -13,10 +13,12 @@ import { AlertService } from '../../../shared/services/alert.service';
   providedIn: 'root',
 })
 export class ProductCategoryService {
-  private productCategories: ProductCategoriesModel[] = [];
+  // private productCategories: ProductCategoriesModel[] = [];
+  private productCategories = signal<ProductCategoriesModel[]>([]);
   productCategoriesChanged = new Subject<ProductCategoriesModel[]>();
 
-  private productCategoriesGroup: ProductCategoriesGroupModel[] = [];
+  // private productCategoriesGroup: ProductCategoriesGroupModel[] = [];
+  private productCategoriesGroup = signal<ProductCategoriesGroupModel[]>([]);
   productCategoriesGroupChanged = new Subject<ProductCategoriesGroupModel[]>();
 
   constructor(
@@ -36,8 +38,8 @@ export class ProductCategoryService {
     );
     data.subscribe({
       next: (productCategories: ProductCategoriesModel[]) => {
-        this.productCategories = productCategories;
-        this.productCategoriesChanged.next(this.productCategories);
+        this.productCategories.set(productCategories);
+        this.productCategoriesChanged.next(this.productCategories());
       },
       error: (err) => {
         this.errorHandlerService.handleError(err.status);
@@ -71,7 +73,7 @@ export class ProductCategoryService {
    * @returns لیست نوع محصولات
    */
   getProductCategories(): ProductCategoriesModel[] {
-    return this.productCategories;
+    return this.productCategories();
   }
 
   /**
@@ -84,8 +86,8 @@ export class ProductCategoryService {
     );
     data.subscribe({
       next: (productCategoriesGroup: ProductCategoriesGroupModel[]) => {
-        this.productCategoriesGroup = productCategoriesGroup;
-        this.productCategoriesGroupChanged.next(this.productCategoriesGroup);
+        this.productCategoriesGroup.set(productCategoriesGroup);
+        this.productCategoriesGroupChanged.next(this.productCategoriesGroup());
       },
       error: (err) => {
         this.errorHandlerService.handleError(err.status);
@@ -99,6 +101,6 @@ export class ProductCategoryService {
    * @returns لیست کوتاه شده نوع محصولات
    */
   getProductCategoriesGroup(): ProductCategoriesGroupModel[] {
-    return this.productCategoriesGroup;
+    return this.productCategoriesGroup();
   }
 }

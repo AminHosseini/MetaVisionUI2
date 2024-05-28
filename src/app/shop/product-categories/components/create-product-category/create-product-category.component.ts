@@ -1,4 +1,12 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  Signal,
+  ViewChild,
+  signal,
+  viewChild,
+} from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -66,13 +74,20 @@ export class CreateProductCategoryComponent
   implements OnInit, OnDestroy, ICanComponentDeactivate
 {
   productCategoryForm!: FormGroup;
-  @ViewChild('form') form: any;
-  keywordEntered: string = '';
-  keywords: string[] = this.getKeywords();
-  keywordsValidationError: string = '';
-  selectOptions: ProductCategoriesGroupModel[] = [];
-  @ViewChild(PlaceholderDirective, { static: false })
-  serverValidationErrors!: PlaceholderDirective;
+  // @ViewChild('form') form: any;
+  form: Signal<any> = viewChild('form');
+  // keywordEntered: string = '';
+  keywordEntered = signal<string>('');
+  // keywords: string[] = this.getKeywords();
+  keywords = signal<string[]>(this.getKeywords());
+  // keywordsValidationError: string = '';
+  keywordsValidationError = signal<string>('');
+  // selectOptions: ProductCategoriesGroupModel[] = [];
+  selectOptions = signal<ProductCategoriesGroupModel[]>([]);
+  // @ViewChild(PlaceholderDirective, { static: false })
+  // serverValidationErrors!: PlaceholderDirective;
+  serverValidationErrors =
+    viewChild<PlaceholderDirective>(PlaceholderDirective);
 
   constructor(
     private router: Router,
@@ -91,8 +106,8 @@ export class CreateProductCategoryComponent
 
   ngOnDestroy(): void {
     this.helperService.keywords = [];
-    this.keywordsValidationError = '';
-    this.serverValidationErrors.viewContainerRef.clear();
+    this.keywordsValidationError.set('');
+    this.serverValidationErrors()?.viewContainerRef.clear();
   }
 
   /**
@@ -100,7 +115,8 @@ export class CreateProductCategoryComponent
    */
   private initializeForm(): void {
     this.productCategoryForm = new FormGroup({
-      parentId: new FormControl<number>(0, Validators.required),
+      // parentId: new FormControl<number>(0, Validators.required),
+      parentId: new FormControl<number>(0),
       name: new FormControl<string>('', [
         Validators.required,
         Validators.maxLength(50),
@@ -118,7 +134,7 @@ export class CreateProductCategoryComponent
           Validators.required,
           Validators.maxLength(200),
         ]),
-        keywords: new FormControl<string[]>(this.keywords),
+        keywords: new FormControl<string[]>(this.keywords()),
       }),
     });
   }
@@ -127,8 +143,9 @@ export class CreateProductCategoryComponent
    * پر کردن لیست و دراپ داون دسته بندی محصول اصلی
    */
   private fillParentIdSelect(): void {
-    this.selectOptions =
-      this.productCategoryService.getProductCategoriesGroup();
+    this.selectOptions.set(
+      this.productCategoryService.getProductCategoriesGroup()
+    );
   }
 
   /**
@@ -139,8 +156,9 @@ export class CreateProductCategoryComponent
   onSubmit(focusElement: HTMLElement): void {
     // دادن پیام خطا در صورتی که لیست کلمات کلیدی خالی بود
     if (this.helperService.keywords.length === 0) {
-      this.keywordsValidationError =
-        this.customValidationMessageService.keywordsCannotBeEmpty;
+      this.keywordsValidationError.set(
+        this.customValidationMessageService.keywordsCannotBeEmpty
+      );
       return;
     }
     // دادن پیام خطا در صورتی که لیست کلمات کلیدی خالی بود
@@ -159,11 +177,11 @@ export class CreateProductCategoryComponent
 
     // ریست کردن فرم و خالی کردن لیست کلمات کلیدی
     this.productCategoryForm.reset();
-    this.form.resetForm();
+    this.form().resetForm();
     this.helperService.keywords = [];
-    this.keywords = this.helperService.keywords;
-    this.keywordsValidationError = '';
-    this.serverValidationErrors.viewContainerRef.clear();
+    this.keywords.set(this.helperService.keywords);
+    this.keywordsValidationError.set('');
+    this.serverValidationErrors()?.viewContainerRef.clear();
     (this.productCategoryForm.controls['seo'] as FormGroup).controls[
       'keywords'
     ].patchValue(this.keywords);
@@ -192,32 +210,35 @@ export class CreateProductCategoryComponent
    * @returns فعال یا غیر فعال؟
    */
   activateAddKeywordBtn(): boolean {
-    return this.keywordEntered === '';
+    return this.keywordEntered() === '';
   }
 
   /**
    * اضافه کردن کلمه کلیدی جدید به لیست کلمات کلیدی
    */
   addNewKeyword(): void {
-    if (!/\S/.test(this.keywordEntered)) {
-      this.keywordsValidationError =
-        this.customValidationMessageService.keywordsCannotBeEmpty;
+    if (!/\S/.test(this.keywordEntered())) {
+      this.keywordsValidationError.set(
+        this.customValidationMessageService.keywordsCannotBeEmpty
+      );
       return;
     }
-    if (this.keywordEntered.length > 24) {
-      this.keywordsValidationError =
-        this.customValidationMessageService.maximumKeywordCharacters;
+    if (this.keywordEntered().length > 24) {
+      this.keywordsValidationError.set(
+        this.customValidationMessageService.maximumKeywordCharacters
+      );
       return;
     }
     if (this.helperService.keywords.length >= 8) {
-      this.keywordsValidationError =
-        this.customValidationMessageService.maximumKeywordsArrayCount;
+      this.keywordsValidationError.set(
+        this.customValidationMessageService.maximumKeywordsArrayCount
+      );
       return;
     }
 
-    this.keywordsValidationError = '';
-    this.helperService.addNewKeyword(this.keywordEntered);
-    this.keywordEntered = '';
+    this.keywordsValidationError.set('');
+    this.helperService.addNewKeyword(this.keywordEntered());
+    this.keywordEntered.set('');
   }
 
   /**
@@ -289,7 +310,7 @@ export class CreateProductCategoryComponent
   async canDeactivate(): Promise<boolean> {
     return await this.guardsHelperService.canDeactivateWithKeywordsAsync(
       this.productCategoryForm,
-      this.keywords
+      this.keywords()
     );
   }
 
@@ -298,11 +319,12 @@ export class CreateProductCategoryComponent
    * @param messages ارور ها
    */
   private showServerValidationErrors(messages: string[]): void {
-    const hostViewContainerRef = this.serverValidationErrors.viewContainerRef;
-    hostViewContainerRef.clear();
-    const componentRef = hostViewContainerRef.createComponent(
+    const hostViewContainerRef =
+      this.serverValidationErrors()?.viewContainerRef;
+    hostViewContainerRef?.clear();
+    const componentRef = hostViewContainerRef?.createComponent(
       ServerValidationAlertComponent
     );
-    componentRef.instance.errors = messages;
+    componentRef!.instance.errors = messages;
   }
 }

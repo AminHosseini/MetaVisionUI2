@@ -18,7 +18,7 @@
             <mat-label metavisionFontHelper>دسته بندی محصول اصلی</mat-label>
             <mat-select formControlName="parentId">
               <mat-option metavisionFontHelper [value]="0">هیچکدام</mat-option>
-              @for (selectOption of selectOptions; track $index) {
+              @for (selectOption of selectOptions(); track $index) {
               <mat-option
                 metavisionFontHelper
                 [value]="selectOption.productCategoryId"
@@ -160,16 +160,16 @@
           </button>
         </div>
       </div>
-      @if (keywords) {
+      @if (keywords()) {
       <div class="row" formGroupName="seo">
         <div class="col-md-12">
           <input
             type="text"
             hidden
             formControlName="keywords"
-            [value]="keywords"
+            [value]="keywords()"
           />
-          @for (keyword of keywords; track $index) {
+          @for (keyword of keywords(); track $index) {
           <div metavisionKeywordElement>
             <span>{{ keyword }}</span>
             <button
@@ -185,9 +185,9 @@
       </div>
       }
       <br />
-      @if (keywordsValidationError) {
+      @if (keywordsValidationError()) {
       <span metavisionCustomValidationMessage>{{
-        keywordsValidationError
+        keywordsValidationError()
       }}</span>
       <br />
       }
